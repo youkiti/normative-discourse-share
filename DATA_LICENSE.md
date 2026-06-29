@@ -1,11 +1,11 @@
-# Data license — CC BY 4.0
+# License scope
 
 The **code** in this repository is licensed under the MIT License (see `LICENSE`).
 
-The **data and analysis outputs** — including, where shared, the text corpus,
-the derived Parquet/CSV tables, and the figures/tables reproduced by this
-package — are licensed under the
-**Creative Commons Attribution 4.0 International License (CC BY 4.0)**.
+The **original analysis outputs and non-expressive derived data** produced by
+this project — such as aggregate tables, counts, figures, and other outputs that
+do not reproduce article prose — are licensed under the **Creative Commons
+Attribution 4.0 International License (CC BY 4.0)**.
 
 You are free to share and adapt this material for any purpose, provided you give
 appropriate credit, link to the license, and indicate if changes were made.
@@ -22,6 +22,12 @@ articles). See the repository README for citation details.
 ## Third-party content
 
 The underlying full-text articles remain the copyright of their respective
-publishers and are **not** redistributed under this license. This package shares
-only already text-extracted, derived data for the purpose of computational
-reproduction, and links to publicly available source identifiers (PMIDs).
+publishers and are **not** licensed under CC BY 4.0 by this repository. This
+license does not cover article PDFs, extracted article text, PubMed abstract
+text, or any other third-party prose included in local or collaborator-only input
+bundles.
+
+Those input materials are used only where the user has the appropriate access
+rights. Public repository files should contain code, configuration, public source
+identifiers (such as PMIDs/DOIs), metadata, and non-expressive derived outputs,
+not redistributed article text.

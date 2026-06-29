@@ -17,11 +17,11 @@ Reproduces **Table 1, Table 2, and Table 3** of `manuscripts/methods_results.md`
 | **text (JSON) → corpus → detection → statistics** | ✅**this package / 本パッケージ** |
 
 EN: The Adobe step is impractical to re-run, so the **already text-extracted data**
-(`data/interim/cleaned_text/*.json`) is shared via Google Drive, and everything
-downstream is provided as documented, runnable code that calls the existing
+(`data/interim/cleaned_text/*.json`) is maintained as collaborator-only input
+data, and everything downstream is provided as documented, runnable code that calls the existing
 package in `src/normative_discourse/`.
 
-JA: Adobe 工程は再実行が難しいため、**テキスト抽出済みデータ**を Google Drive で共有し、
+JA: Adobe 工程は再実行が難しいため、**テキスト抽出済みデータ**は共同研究者向け入力データとして管理し、
 それ以降の処理を、`src/normative_discourse/` の既存コードを呼ぶ説明付きスクリプトとして
 提供します。
 
@@ -51,10 +51,10 @@ pip install -r reproducibility/requirements.txt
 
 ## 2. Place the shared data / 共有データの配置
 
-Download the bundle from Google Drive and place each file at the exact path below
-(relative to the repository root). The scripts resolve these default paths.
+Place the collaborator-only data bundle at the exact paths below (relative to
+the repository root). The scripts resolve these default paths.
 
-Google Drive のバンドルを下表の**正確なパス**（リポジトリルート相対）に置いてください。
+共同研究者向けデータバンドルを下表の**正確なパス**（リポジトリルート相対）に置いてください。
 
 | Drive file                                    | → place at / 配置先                   | required |
 | --------------------------------------------- | -------------------------------------- | -------- |
