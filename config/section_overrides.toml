@@ -1,0 +1,1975 @@
+# Manual section overrides for articles that cannot be auto-fixed by patterns.
+# Applied during build_corpus() Step 2.5 (after position inference, before sanitisation).
+#
+# Supported actions:
+#   rename_section  — change section_type for sections matching from_type + title_contains
+#   set_non_imrad   — force the is_non_imrad flag with a reason string
+
+# --- Acad Med ---
+
+[[overrides]]
+pmid = "41672749"
+journal = "Acad Med"
+reason = "Perspective: 'A path forward...' section functions as discussion"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "path forward", to_type = "discussion" },
+]
+
+# NOTE (2026-06-15 IMRaD-59 pass): PMID 39961086 previously had a
+# rename_section(other -> methods) override here. It is a NO-OP and was removed:
+# by the time overrides apply (Step 2.5), the abstract anchor/force-split has
+# already MERGED the six RCA-process "other" sections into a single empty-titled
+# `introduction` block (2,427 w; see reports/override_time_sections_2026-06-15.md).
+# There is no separate titled section for rename_section to target, and renaming
+# the whole merged block would empty the introduction. oversized_intro is therefore
+# unfixable by section override (merged-block artifact) and left as benign.
+
+[[overrides]]
+pmid = "40550120"
+journal = "Acad Med"
+reason = "Case report narrative — no formal methods section"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_case_report" },
+]
+
+[[overrides]]
+pmid = "40921049"
+journal = "Acad Med"
+reason = "Program description — methods embedded in introduction subsections"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_program_description" },
+]
+
+# --- Med Educ ---
+
+[[overrides]]
+pmid = "41196008"
+journal = "Med Educ"
+reason = "Conceptual analysis: myth deconstruction sections function as results"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "FIVE MYTHS", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Myth 1", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Myth 2", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Myth 3", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Myth 4", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Myth 5", to_type = "results" },
+]
+
+# --- Perspect Med Educ ---
+
+[[overrides]]
+pmid = "41019847"
+journal = "Perspect Med Educ"
+reason = "Innovation report — reflective sections are non-standard, no formal discussion"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_innovation_report" },
+]
+
+[[overrides]]
+pmid = "40977922"
+journal = "Perspect Med Educ"
+reason = "Innovation report — evaluation phases embedded in narrative, no formal results"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_innovation_report" },
+]
+
+# --- JMIR Med Educ ---
+
+[[overrides]]
+pmid = "39933166"
+journal = "JMIR Med Educ"
+reason = "Results content mislabeled as methods by PMC parser; reclassify phase results"
+actions = [
+    { action = "rename_section", from_type = "methods", title_contains = "Effectiveness of VRS", to_type = "results" },
+    { action = "rename_section", from_type = "methods", title_contains = "Theme 1", to_type = "results" },
+    { action = "rename_section", from_type = "methods", title_contains = "Theme 2", to_type = "results" },
+    { action = "rename_section", from_type = "methods", title_contains = "Theme 3", to_type = "results" },
+    { action = "rename_section", from_type = "methods", title_contains = "Theme 4", to_type = "results" },
+    { action = "rename_section", from_type = "methods", title_contains = "Core Theme", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "41417680"
+journal = "JMIR Med Educ"
+reason = "Policy/perspective piece — narrative arguments, no empirical methods/results"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_policy_perspective" },
+]
+
+# --- Acad Med (results missing_in_raw) ---
+
+[[overrides]]
+pmid = "40880446"
+journal = "Acad Med"
+reason = "Program evaluation: healthcare utilization section is results, not methods"
+actions = [
+    { action = "rename_section", from_type = "methods", title_contains = "Health care use", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "40865045"
+journal = "Acad Med"
+reason = "Pilot assessment: LLM output section contains reliability/comparison results"
+actions = [
+    { action = "rename_section", from_type = "methods", title_contains = "LLM output", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "40456174"
+journal = "Acad Med"
+reason = "Infrastructure development report — results woven into implementation narrative"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_program_development" },
+]
+
+# --- NEJM ---
+
+[[overrides]]
+pmid = "39655786"
+journal = "N Engl J Med"
+reason = "Clinical trial: Safety and Adverse Events contains interpretive discussion"
+actions = [
+    { action = "rename_section", from_type = "results", title_contains = "Safety and Adverse Events", to_type = "discussion" },
+]
+
+# --- Acad Med (round 2) ---
+
+[[overrides]]
+pmid = "40359246"
+journal = "Acad Med"
+reason = "Commentary/narrative about USMLE Step 1 — no empirical data"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_commentary" },
+]
+
+[[overrides]]
+pmid = "40378190"
+journal = "Acad Med"
+reason = "Innovation report: confidence/practice subsections contain quantitative results"
+actions = [
+    { action = "rename_section", from_type = "methods", title_contains = "patient safety confidence", to_type = "results" },
+    { action = "rename_section", from_type = "methods", title_contains = "future practice", to_type = "results" },
+]
+
+# --- Truncated extractions (missing results+discussion) ---
+
+[[overrides]]
+pmid = "40267506"
+journal = "JAMA"
+reason = "PDF extraction truncated — no results or discussion in raw text"
+actions = [
+    { action = "set_non_imrad", reason = "incomplete_extraction" },
+]
+
+[[overrides]]
+pmid = "38460191"
+journal = "Med Teach"
+reason = "PDF extraction truncated — ends mid-methods, no results or discussion"
+actions = [
+    { action = "set_non_imrad", reason = "incomplete_extraction" },
+]
+
+# NOTE (2026-06-15 IMRaD residual-63 cleanup): three records that tripped the
+# boundary audit — 28678101 (Acad Med, PubMed type Personal Narrative),
+# 32870237 (JAMA Research Letter) and 36608345 (Acad Med, broken PDF extract) —
+# were inspected and confirmed non-IMRaD, but the auto-classifier already marks
+# all three is_non_imrad="no_methods_and_results", so no explicit override is
+# needed. They only kept surfacing in the audit because the audit did not
+# exclude is_non_imrad records; that was fixed in audit_imrad_boundaries.py.
+
+# ===========================================================================
+# 2026-06-15 IMRaD-59 pass: rename_section fixes for the 59 boundary flags.
+# Every from_type/title_contains below was authored against the AUTHORITATIVE
+# section state at override-application time (Step 2.5), dumped by
+# scripts/dump_override_time_sections.py -> reports/override_time_sections_2026-06-15.md
+# (NOT the raw cleaned_text JSON, whose types differ after reclassify+anchor+
+# force-split+position-infer). No set_non_imrad is used: per the freeze policy,
+# screened-in originals are not reclassified — only mis-typed sections are
+# reallocated to their true IMRaD type so the boundary audit clears.
+# ===========================================================================
+
+# --- oversized_intro: methods/results mis-typed as introduction ---
+
+[[overrides]]
+pmid = "26630603"
+journal = "Acad Med"
+reason = "Perspective with rhetorical-question headings: empirical study subsections mis-typed as introduction"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Do Physicians Make Contextual Errors", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "How Often Does Patient Context Matter", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Do Contextual Errors Impact Health Care Costs", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "26650676"
+journal = "Acad Med"
+reason = "CATS/MMM mentoring-program component descriptions are methods, not introduction"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Description of the CATS Mentoring Program", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Description of the MMM", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Self-mentorship", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Senior mentorship", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Scientific mentorship", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Peer mentorship", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Staff mentorship", to_type = "methods" },
+    # 2026-06-26 discussion recovery: 'Interpretation and application' is the Discussion (mis-typed as methods)
+    { action = "rename_section", from_type = "methods", title_contains = "Interpretation and application", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "26886810"
+journal = "Acad Med"
+reason = "BPCI episode-selection methodology subsections are methods, not introduction"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Factors That Informed Episode Selection", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Volume", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Identifying sufficient clinical opportunity", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Market forces and episode attribution", to_type = "methods" },
+    # 2026-06-26 discussion recovery: 'Conclusions' block functions as Discussion (house style)
+    { action = "rename_section", from_type = "conclusion", title_contains = "Conclusions", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "27508344"
+journal = "Acad Med"
+reason = "Policy-analysis findings (three policy subsystems) mis-typed as introduction; fills empty results"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Pathway to Practice", to_type = "results" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Immigration system", to_type = "results" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Educational and licensure", to_type = "results" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Health human resources", to_type = "results" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Misalignment of ideological", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "28441673"
+journal = "Acad Med"
+reason = "Gateways recruitment/matriculation approach is methods, not introduction (intro marginally over)"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Recruitment and matriculation", to_type = "methods" },
+    # 2026-06-26 discussion recovery: 'Comparison to Other Programs' is the Discussion
+    { action = "rename_section", from_type = "results", title_contains = "Comparison to Other Programs", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "28557937"
+journal = "Acad Med"
+reason = "Core-EPA pilot design subsections are methods; next-steps section extends the tiny discussion"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Timeline", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Ten Medical Schools Participating", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Organization", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Engaging the Broader Community", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "31425183"
+journal = "Acad Med"
+reason = "MCAT examinee characteristic/score comparisons are results, not introduction"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Characteristics of MCAT examinees", to_type = "results" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Scores of MCAT examinees", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "31577587"
+journal = "Acad Med"
+reason = "Social-network-analysis setting/construction/technique are methods, not introduction"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Center description", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Network construction", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Technique of SNA", to_type = "methods" },
+    # 2026-06-26 discussion recovery: 'Implications of Findings' is the Discussion (mis-typed as results)
+    { action = "rename_section", from_type = "results", title_contains = "Implications of Findings", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "31746029"
+journal = "Med Educ"
+reason = "Numbered qualitative study: §3 findings and §4 interpretation mis-typed as introduction"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Predominant gendered culture", to_type = "results" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Gendered support and mentorship", to_type = "results" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Gendered clinical culture", to_type = "discussion" },
+    { action = "rename_section", from_type = "introduction", title_contains = "4.2 | Mentorship", to_type = "discussion" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Learning opportunities", to_type = "discussion" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Support from nurses", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "31991484"
+journal = "Med Educ"
+reason = "Garbled '3 | RESULTS' header scattered findings across methods/other/introduction; fills empty results"
+actions = [
+    { action = "rename_section", from_type = "methods", title_contains = "Three main themes", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Making decisions builds confidence", to_type = "results" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Displaying confidence", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Balancing the tension", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Consequences of over-supervision", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Consequences of under-supervision", to_type = "results" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Data processing and analysis", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "33006870"
+journal = "Acad Med"
+reason = "Mixed-methods study: assessment design = methods, focus-group/quote subsections = results"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Exploratory Assessment", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Qualitative assessment", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Quantitative analysis", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Focus groups", to_type = "results" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Exemplary Quotes", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "32722852"
+journal = "Med Educ"
+reason = "Change-laboratory Example 1 is an implemented intervention (methods); Example 2 already methods"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Example 1", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "33332909"
+journal = "Acad Med"
+reason = "ACE 'Outputs in ...' subsections report consortium findings (results), not introduction"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Outputs in CBME", to_type = "results" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Outputs in HSS", to_type = "results" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Outputs in optimizing", to_type = "results" },
+    # 2026-06-28 Salvage-42 methods: logic-model Inputs/Activities/Outputs-of-ACE describe how the initiative was built
+    { action = "rename_section", from_type = "introduction", title_contains = "Inputs to the ACE", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Activities of the ACE", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Outputs of the ACE", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Continued", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "33369904"
+journal = "Acad Med"
+reason = "BWF barrier subsections present quantified application-review findings (results), not introduction"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Mentoring and role models", to_type = "results" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Research experience", to_type = "results" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Institutional barriers", to_type = "results" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Pressures of the clinic", to_type = "results" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Career and work", to_type = "results" },
+    # 2026-06-26 discussion recovery: 'Concluding Remarks' functions as the Discussion (low confidence)
+    { action = "rename_section", from_type = "results", title_contains = "Concluding Remarks", to_type = "discussion" },
+    # 2026-06-28 Salvage-42 methods: BWF program setting + proposal-review process (intro) and evaluation design (results)
+    { action = "rename_section", from_type = "introduction", title_contains = "Promoting Solutions", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Programs Funded", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "Evaluation of the Programs", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "34789659"
+journal = "Acad Med"
+reason = "COVID nursing study: student-reported Disruptions/Responses themes are results, not introduction"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Disruptions", to_type = "results" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Responses", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "35041564"
+journal = "Med Teach"
+reason = "OSCE study: training-package/teaching/OSCE-format/Component-2 design subsections are methods"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Diagnostic reasoning training package", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Teaching on diagnostic reasoning", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "OSCE format", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Component 2: Prevalence", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "36044272"
+journal = "Acad Med"
+reason = "8-step leader-selection intervention subsections are methods, not introduction"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Identifying Leadership Characteristics", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Using a Sequential Process", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "36780668"
+journal = "Acad Med"
+reason = "Keck Checks program procedure ('Content and Structure') is methods, not introduction"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Content and Structure of the Keck Checks", to_type = "methods" },
+    # 2026-06-26 discussion recovery: 'Conclusions' block functions as Discussion (house style)
+    { action = "rename_section", from_type = "conclusion", title_contains = "Conclusions", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "37200479"
+journal = "Acad Med"
+reason = "RISE-UC needs assessment is methods, not introduction; fills empty methods"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Needs assessment and departmental research objectives", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "38563548"
+journal = "Med Educ"
+reason = "Numbered sections: 2.x instrument/validity/group-process subsections = methods, 3.2 = results"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "2.2 | Study instruments", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Validity and reliability", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "2.3.3", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "3.2 |", to_type = "results" },
+]
+
+# --- intro_starts_midsentence: a mis-typed leading fragment (not a drop-cap loss) ---
+
+[[overrides]]
+pmid = "28351066"
+journal = "Acad Med"
+reason = "Structured-abstract 'Approach' fragment mis-typed as the sole introduction (begins mid-sentence)"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "The CS was implemented on Penn Presbyterian", to_type = "abstract" },
+]
+
+[[overrides]]
+pmid = "31274523"
+journal = "Acad Med"
+reason = "Sole introduction section is misplaced methods text (study procedure); begins mid-sentence"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "In May 2017", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "32769460"
+journal = "Acad Med"
+reason = "Sole introduction section is a misplaced results fragment (regression R-squared); begins mid-sentence"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Regression models with OEQs", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "32889930"
+journal = "Acad Med"
+reason = "Sole introduction section is misplaced qualitative findings (744w); begins mid-sentence"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Residents were grateful", to_type = "results" },
+]
+
+# --- tiny_results / tiny_discussion: real content typed as other/methods/conclusion ---
+
+[[overrides]]
+pmid = "26222324"
+journal = "Acad Med"
+reason = "Discussion content (challenges/limitations) mis-typed as other; discussion column was a 47w stub"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Extended expansion of the LPE", to_type = "discussion" },
+    { action = "rename_section", from_type = "other", title_contains = "Challenges in establishing LPE", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "28353500"
+journal = "Acad Med"
+reason = "Qualitative findings (principles/stakeholders/barriers) mis-typed as other; results column was a 43w roadmap"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Key principles of value-added", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Students have a substantial", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Key stakeholders of value", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Enhancing current clinical experiences", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Barriers and strategies to promote", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "28973211"
+journal = "Ann Intern Med"
+reason = "Body 'Conclusions' section is the real discussion (lit comparison/limitations); discussion was an 11w abstract stub"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "Conclusions", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "29076231"
+journal = "Med Educ"
+reason = "Two reference-list blocks mis-typed as discussion forced the back-matter strip to cut the real discussion; re-type them to other"
+actions = [
+    { action = "rename_section", from_type = "discussion", title_contains = "Epistemological critiques", to_type = "other" },
+    { action = "rename_section", from_type = "discussion", title_contains = "Behaviourist critiques", to_type = "other" },
+]
+
+[[overrides]]
+pmid = "31299036"
+journal = "Acad Med"
+reason = "Qualitative findings (4 themes) mis-typed as methods; results column was a 27w roadmap"
+actions = [
+    { action = "rename_section", from_type = "methods", title_contains = "Characteristics of Resident", to_type = "results" },
+    { action = "rename_section", from_type = "methods", title_contains = "Quotations From Participants Illustrating", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "34879008"
+journal = "Acad Med"
+reason = "Transition-conceptualization findings (RQ1/RQ2) mis-typed as other; results column was a 10w stub"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Transitions as", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Differences in conceptualizations", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "38295519"
+journal = "Med Teach"
+reason = "SRL comparison findings mis-typed as other; results column was a 41w participant-count stub"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Overall difference", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Difference between low", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Low-performance students", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "High-performance students", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Calibration", to_type = "results" },
+]
+
+
+# ===========================================================================
+# Discussion-recovery overrides (2026-06-26) — restore Discussion sections lost
+# during parsing for 112 IMRaD articles. Triaged per-PMID; see
+# reports/triage_consolidated_2026-06-26.json. 6 PMIDs already had overrides and
+# were merged in place above (26650676, 26886810, 28441673, 31577587, 33369904,
+# 36780668).
+# ===========================================================================
+
+[[overrides]]
+pmid = "27117525"
+journal = "Med Teach"
+reason = "Qualitative lessons-learned recommendations report; no formal Discussion (short summary Conclusion only)"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_lessons_learned_report" },
+]
+
+[[overrides]]
+pmid = "28397007"
+journal = "Perspect Med Educ"
+reason = "Conclusion block functions as Discussion (interpretive, house style)"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "Conclusion", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "29059689"
+journal = "Ann Intern Med"
+reason = "Conclusions block functions as Discussion (house style)"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "Conclusions", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "29582077"
+journal = "Ann Intern Med"
+reason = "Conclusions block functions as Discussion (house style)"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "Conclusions", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "31075187"
+journal = "N Engl J Med"
+reason = "Document is the supplementary clinical trial protocol, not an IMRaD article"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_trial_protocol" },
+]
+
+[[overrides]]
+pmid = "31848999"
+journal = "Perspect Med Educ"
+reason = "Discussion mis-typed under PME Reflection heading"
+actions = [
+    { action = "rename_section", from_type = "results", title_contains = "Reflection", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "34487450"
+journal = "Ann Intern Med"
+reason = "Discussion mis-typed as other under D iscussion heading"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "iscussion", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "37151853"
+journal = "Perspect Med Educ"
+reason = "Discussion mis-typed under PME Reflection heading"
+actions = [
+    { action = "rename_section", from_type = "results", title_contains = "Reflection", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "38560914"
+journal = "Ann Intern Med"
+reason = "Discussion mis-typed as other under D iscussion heading"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "iscussion", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "26383586"
+journal = "Med Teach"
+reason = "'Conclusions' block functions as Discussion (house style; interpretive, compares prior work, limitations)"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "Conclusions", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "27187302"
+journal = "JAMA"
+reason = "Discussion merged into Results tail (no heading); split at 'This study had 2 principal findings' interpretive turn"
+actions = [
+    { action = "split_section", from_type = "results", split_at = "This study had 2 principal findings regarding how surgical care is delivered", tail_to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "27706483"
+journal = "JAMA"
+reason = "Discussion merged into Results tail (no heading); split at 'The study failed to demonstrate' interpretive turn"
+actions = [
+    { action = "split_section", from_type = "results", split_at = "The study failed to demonstrate that an empirical anti-fungal therapy with micafungin", tail_to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "29971437"
+journal = "Ann Intern Med"
+reason = "'Conclusions' block functions as Discussion (interpretive, compares prior work, limitations, mechanism)"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "Conclusions", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "31135399"
+journal = "Acad Med"
+reason = "Group-peer-review evaluation: has an empirical 'Outcomes' results section; 'Where Do We Go From Here?' (other, 494w) is the forward-looking Discussion. Kept IMRaD rather than reclassified (2026-06-26 review)"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Where Do We Go From Here", to_type = "discussion" },
+    # 2026-06-28 Salvage-42 methods: GPR implementation + operating principles describe how the process was built
+    { action = "rename_section", from_type = "introduction", title_contains = "Implementing GPR", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Operating Principles of Group Peer Review", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "31972672"
+journal = "Acad Med"
+reason = "Acad Med Innovation Report (CO-Mentor). Map to IMRaD: 'The Mentorship Training Gap'=intro (native); program description (Colorado Mentoring Training Program/recruitment/delivery)=methods; evaluation + outcomes (Program evaluation design / Increased confidence / Expanded networks: pre-post growth, P<.001, Table 1)=results; interpretation (Mentees: Essential / Concluding Observations)=discussion."
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Mentees: Essential", to_type = "discussion" },
+    { action = "rename_section", from_type = "other", title_contains = "Concluding Observations", to_type = "discussion" },
+    # CO-Mentor program development/recruitment/delivery = methods
+    { action = "rename_section", from_type = "introduction", title_contains = "Colorado Mentoring Training Program", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Program recruitment", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Program delivery", to_type = "methods" },
+    # 2026-06-28 Round12: recover Results. 'Program evaluation' stays native results (drop prior
+    # Salvage-42 Program-evaluation->methods that emptied Results); the two outcome subsections become results.
+    { action = "rename_section", from_type = "other", title_contains = "Increased confidence", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Expanded mentorship support networks", to_type = "results" },
+]
+
+# 31408404 (Med Teach): combined 'Results and discussion' block (1,824w) is the sole
+# results-bearing section of a genuine empirical cross-sectional survey (N=329,
+# JeffSPLL-MS). The parser natively types it `results` at Step 2.5. Round 9
+# (2026-06-28) DROPPED the former rename-to-discussion override: routing the whole
+# empirical block to discussion left results empty and made this the only
+# IMRaD-but-no-Results article — inconsistent with the 'Methods and Findings'
+# (31083729) split-to-results treatment. No override needed; the section stays
+# `results` (interpretation is interwoven and not cleanly separable, so the whole
+# block is kept on the results side rather than split).
+
+[[overrides]]
+pmid = "36449918"
+journal = "Acad Med"
+reason = "Discussion (limitations/strengths) merged into Results tail (no heading); split at 'Limitations regarding the FT enactment'"
+actions = [
+    { action = "split_section", from_type = "results", split_at = "Limitations regarding the FT enactment included less than half of program", tail_to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "37158447"
+journal = "N Engl J Med"
+reason = "Discussion merged into Results ('Outcomes') tail (no heading); split at interpretive turn on PPH findings"
+actions = [
+    { action = "split_section", from_type = "results", split_at = "Findings regarding postpartum hemorrhage (blood loss, ≥500 ml) were consistent with those", tail_to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "26619339"
+journal = "Med Teach"
+reason = "'Conclusions' block functions as Discussion (long, interpretive; Med Teach house style)"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "Conclusions", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "27240120"
+journal = "Ann Intern Med"
+reason = "'CONCLUSIONS' block functions as Discussion (interpretive, includes limitations)"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "CONCLUSIONS", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "27873412"
+journal = "Med Educ"
+reason = "Discussion mis-typed under 'Limitations and Conclusions' heading"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "LIMITATIONS AND CONCLUSIONS", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "28471777"
+journal = "Acad Med"
+reason = "Perspective/process article ('The Problem' + recommendations); no formal Discussion section"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_perspective_no_discussion" },
+]
+
+[[overrides]]
+pmid = "29343150"
+journal = "Med Teach"
+reason = "'Conclusions' block functions as Discussion (interpretive reflection; Med Teach house style)"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "Conclusions", to_type = "discussion" },
+    # 2026-06-28 Salvage-42 methods: CBC pilot curriculum design/development/assessment (incl. appended module/reference docs)
+    { action = "rename_section", from_type = "introduction", title_contains = "Developing the novel training program", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Breaking down the curriculum into discrete modules", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Altered delivery of objectives", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "early, more rapid ascent", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "enhanced assessment scheme", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "From pilot to mainstream", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Refining the curriculum", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Determining trainee competence", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Module 17: Advanced trauma", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Updated: day/month/year", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Medical Expert Reference Documents", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Communicator Articles", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Leader/Manager Article", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Review of the CBC curriculum by accrediting bodies", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Intramed", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Evaluator Code", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "29676022"
+journal = "Med Educ"
+reason = "Discussion merged into tail of results-type 'Other influences' section (no clean heading); split at interpretive turn"
+actions = [
+    { action = "split_section", from_type = "other", split_at = "This is the first study to explore the relationship between different durations", tail_to_type = "discussion" },
+    # 2026-06-28 Salvage-42 methods: setting/participants (intro) — analysis blocks left as results-side per their findings content
+    { action = "rename_section", from_type = "introduction", title_contains = "Study sample", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Student characteristics", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "31348065"
+journal = "Acad Med"
+reason = "Discussion mis-typed under 'Moving Forward' heading (interpretive; compares to prior work)"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Moving Forward", to_type = "discussion" },
+    # 2026-06-28 Salvage-42 methods: CRP creation/structure describes how the program was built
+    { action = "rename_section", from_type = "introduction", title_contains = "Evolution of the Centralized Remediation", to_type = "methods" },
+    # 2026-06-28 abstract over-capture: body 'Problem' (background) split back to introduction (after the rename)
+    { action = "split_section", from_type = "abstract", split_at = "Residency program directors and teaching faculty invest an enormous amount of time,1", tail_to_type = "introduction" },
+]
+
+[[overrides]]
+pmid = "31990724"
+journal = "Acad Med"
+reason = "Program-description article (architecture of a presubmission review program); no formal Discussion section"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_program_description" },
+]
+
+[[overrides]]
+pmid = "32725344"
+journal = "Perspect Med Educ"
+reason = "Innovation report - no formal discussion section"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_innovation_report" },
+]
+
+[[overrides]]
+pmid = "35671407"
+journal = "Acad Med"
+reason = "Discussion mis-typed under 'Limitations of the meta-evaluation' heading (interpretive limitations)"
+actions = [
+    { action = "rename_section", from_type = "results", title_contains = "Limitations of the meta-evaluation", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "38828951"
+journal = "N Engl J Med"
+reason = "Discussion merged into tail of 'Safety' results section (no heading); split at interpretive turn"
+actions = [
+    { action = "split_section", from_type = "results", split_at = "Ocular events were common and were mainly characterized by high rates of resolution", tail_to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "27291994"
+journal = "Lancet"
+reason = "Discussion glued to tail of Results (no heading); split at interpretive turn"
+actions = [
+    { action = "split_section", from_type = "results", split_at = "Without a randomly assigned control group, this study relies on a", tail_to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "27820947"
+journal = "Ann Intern Med"
+reason = "'Conclusions' block functions as Discussion (house style)"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "Conclusions", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "28658019"
+journal = "Acad Med"
+reason = "Final section interprets data and gives recommendations = Discussion (mis-typed results)"
+actions = [
+    { action = "rename_section", from_type = "results", title_contains = "Continuing need to develop the physician-scientist workforce", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "29450516"
+journal = "JAMA"
+reason = "Letter to the Editor / author Reply correspondence, not an IMRaD original"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_letter_correspondence" },
+]
+
+[[overrides]]
+pmid = "29766750"
+journal = "N Engl J Med"
+reason = "Discussion mis-typed as 'other' under misspelled 'DISSCUSSION' heading"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "DISSCUSSION", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "30083761"
+journal = "Ann Intern Med"
+reason = "'Conclusions' block functions as Discussion (house style)"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "Conclusions", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "31634914"
+journal = "Ann Intern Med"
+reason = "'Conclusions' block functions as Discussion (house style)"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "CONCLUSIONS", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "32040767"
+journal = "Perspect Med Educ"
+reason = "PME innovation-report house style. Map to IMRaD: Background=intro (native); Description of the innovation=methods; Evaluation (survey design + Tab.3 findings: attendance 31%, 85% response, 50% perceived stress reduction)=results (native); Reflection=discussion."
+actions = [
+    { action = "rename_section", from_type = "results", title_contains = "Reflection", to_type = "discussion" },
+    { action = "rename_section", from_type = "other", title_contains = "Description of the innovation", to_type = "methods" },
+    # 2026-06-28 Round12: 'Evaluation' is the results/outcomes section; keep native results
+    # (drop prior Salvage-42 Evaluation->methods that emptied Results).
+]
+
+[[overrides]]
+pmid = "32989709"
+journal = "Perspect Med Educ"
+reason = "'Reflection' section is the Discussion (PME innovation-report house style)"
+actions = [
+    { action = "rename_section", from_type = "results", title_contains = "Reflection", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "35108233"
+journal = "Acad Med"
+reason = "'Concluding comments' section functions as the Discussion (innovation report)"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Concluding comments", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "37952131"
+journal = "N Engl J Med"
+reason = "Discussion glued to tail of Results 'Adverse Events' (no heading); split at interpretive turn"
+actions = [
+    { action = "split_section", from_type = "results", split_at = "Among 17,604 patients with a BMI of 27 or greater and preexisting", tail_to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "39087363"
+journal = "Med Teach"
+reason = "Editorial commentary (author guidance), not an IMRaD original"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_editorial_commentary" },
+]
+
+[[overrides]]
+pmid = "29459986"
+journal = "Ann Intern Med"
+reason = "'Conclusions' block functions as full Discussion (interpretive: findings, mechanisms, limitations) with concluding summary"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "Conclusions", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "29791247"
+journal = "N Engl J Med"
+reason = "Discussion merged into tail of Results section (no heading); split at interpretive turn"
+actions = [
+    { action = "split_section", from_type = "results", title_contains = "Clinical and Exploratory Outcomes", split_at = "a low-cost intervention delivered by the interpro-fessional ICU team did not", tail_to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "30508432"
+journal = "Ann Intern Med"
+reason = "'Conclusions' block is the full Discussion (interpretation, prior-work comparison, limitations) with concluding summary"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "Conclusions", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "32079943"
+journal = "Acad Med"
+reason = "Discussion mis-typed as 'other'; interpretive section discusses findings, mechanisms, limitations, implications"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Creating Equity in", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "35108234"
+journal = "Acad Med"
+reason = "Faculty-development program (PLUS) innovation report - program description, not standard IMRaD original research"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_innovation_report" },
+]
+
+[[overrides]]
+pmid = "37976374"
+journal = "Acad Med"
+reason = "Discussion (and Implications) glued onto tail of Results section under inline 'Discussion' heading; split at interpretive turn"
+actions = [
+    { action = "split_section", from_type = "results", title_contains = "Results", split_at = "These studies provide initial evidence that SJT scores may add value", tail_to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "27479614"
+journal = "Ann Intern Med"
+reason = "'Conclusions' block functions as Discussion (house style)"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "CONCLUSIONS", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "28078685"
+journal = "Med Educ"
+reason = "'Conclusion' block functions as Discussion (interpretive, compares with prior work)"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "Conclusion", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "28828489"
+journal = "Ann Intern Med"
+reason = "'Conclusions' block functions as Discussion (house style)"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "CONCLUSIONS", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "29465452"
+journal = "Acad Med"
+reason = "Innovation Report - no formal discussion section"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_innovation_report" },
+]
+
+[[overrides]]
+pmid = "30650322"
+journal = "N Engl J Med"
+reason = "Discussion merged into Results ('Safety') tail after inline heading; split at interpretive turn"
+actions = [
+    { action = "split_section", from_type = "results", title_contains = "Safety", split_at = "The trial population was composed of persons living in regions", tail_to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "32079947"
+journal = "Acad Med"
+reason = "'Other Considerations' section is the Discussion (implications, transferability, limitations)"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Other Considerations", to_type = "discussion" },
+    # 2026-06-28 Salvage-42 methods: VAQS program setting (intro) + logic-model Inputs/Activities/Outputs (results)
+    { action = "rename_section", from_type = "introduction", title_contains = "VAQS Program", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "Logic Model as a Tool", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "Inputs", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "Activities", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "Outputs", to_type = "methods" },
+    # 2026-06-28 abstract over-capture: body 'Problem' (background) split back to introduction (after the rename)
+    { action = "split_section", from_type = "abstract", split_at = "Effective clinical leadership is vital to the delivery of high-quality health care.", tail_to_type = "introduction" },
+]
+
+[[overrides]]
+pmid = "35313110"
+journal = "Ann Intern Med"
+reason = "Discussion mis-typed as 'other' under OCR-split 'D iscussion' heading"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "D iscussion", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "38190712"
+journal = "Ann Intern Med"
+reason = "Discussion mis-typed as 'other' under OCR-split 'D iscussion' heading"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "D iscussion", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "39476341"
+journal = "N Engl J Med"
+reason = "Narrative review (content is a CMD scoping review, not IMRaD original; metadata title mismatched)"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_narrative_review" },
+]
+
+[[overrides]]
+pmid = "26873808"
+journal = "Lancet"
+reason = "'Results and discussion' block mis-typed as results; rename to discussion"
+actions = [
+    { action = "rename_section", from_type = "results", title_contains = "Results and discussion", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "28256356"
+journal = "Lancet"
+reason = "Discussion merged into tail of 'Predictors of primary treatment success' section (inline heading); split at interpretive turn. Section is now typed 'results' (the bare-'Results' skip-release parser fix reclassified the buried Findings), so split off the discussion tail from results."
+actions = [
+    { action = "split_section", from_type = "results", title_contains = "Predictors of primary treatment success", split_at = "The results of the randomised multi-centre trial FCET2EC demonstrate that three weeks", tail_to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "28834488"
+journal = "N Engl J Med"
+reason = "Structured GBD brief report — no formal discussion section"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_structured_brief_report" },
+]
+
+[[overrides]]
+pmid = "29490543"
+journal = "Med Teach"
+reason = "'Conclusions' block functions as Discussion (house style)"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "Conclusions", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "29847326"
+journal = "Acad Med"
+reason = "Innovation report (REACH residency track) — no formal discussion section"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_innovation_report" },
+]
+
+[[overrides]]
+pmid = "32458381"
+journal = "Perspect Med Educ"
+reason = "Discussion mis-typed as results under 'Reflection' heading"
+actions = [
+    { action = "rename_section", from_type = "results", title_contains = "Reflection", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "34031305"
+journal = "Acad Med"
+reason = "Discussion mis-typed as results under 'Current and Future Considerations' heading"
+actions = [
+    { action = "rename_section", from_type = "results", title_contains = "Current and Future Considerations", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "35385402"
+journal = "Acad Med"
+reason = "Discussion mis-typed as results under 'Preliminary Findings and Limitations' heading"
+actions = [
+    { action = "rename_section", from_type = "results", title_contains = "Preliminary Findings and Limitations", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "38343556"
+journal = "Perspect Med Educ"
+reason = "Discussion mis-typed as results under 'Early findings and path forward' heading"
+actions = [
+    { action = "rename_section", from_type = "results", title_contains = "Early findings and path forward", to_type = "discussion" },
+    # 2026-06-28 Salvage-42 methods: logic model + three pillars + readiness/fidelity/community evaluation-design dimensions
+    { action = "rename_section", from_type = "results", title_contains = "logic model", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "three pillars", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "Readiness", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "Fidelity", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "community of practice", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "39480996"
+journal = "Med Teach"
+reason = "Accelerated-curriculum innovation/program description — no formal discussion section"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_innovation_report" },
+]
+
+[[overrides]]
+pmid = "28847012"
+journal = "Ann Intern Med"
+reason = "'CONCLUSIONS' section is the full Discussion (interpretation, limitations); house style"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "CONCLUSIONS", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "29532054"
+journal = "Ann Intern Med"
+reason = "Large 'CONCLUSIONS' block (787w) is the Discussion; small 'Conclusions' (70w) remains the conclusion. title_equals is case-sensitive so only the all-caps block is re-typed (2026-06-26 review)"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_equals = "CONCLUSIONS", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "29877914"
+journal = "Acad Med"
+reason = "Innovation Report - program description, no formal Discussion section"
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_innovation_report" },
+]
+
+[[overrides]]
+pmid = "30808512"
+journal = "Lancet"
+reason = "Discussion mis-typed under Lancet 'Interpretation' heading"
+actions = [
+    { action = "rename_section", from_type = "results", title_contains = "Interpretation", to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "31751012"
+journal = "N Engl J Med"
+reason = "Discussion merged into tail of 'Safety' Results section (no heading); split at interpretive turn"
+actions = [
+    { action = "split_section", from_type = "results", title_contains = "Safety", split_at = "Osimertinib is more effective in pretreated patients in whom the EGFR", tail_to_type = "discussion" },
+]
+
+[[overrides]]
+pmid = "34183597"
+journal = "Acad Med"
+reason = "'Conclusions' block functions as Discussion (house style)"
+actions = [
+    { action = "rename_section", from_type = "conclusion", title_contains = "Conclusions", to_type = "discussion" },
+    # 2026-06-28 Salvage-42 methods: EPA pilot data collection + guiding-principles design
+    { action = "rename_section", from_type = "introduction", title_contains = "Data Collections", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Guiding Principles", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "35397236"
+journal = "Lancet"
+reason = "GBD Iran Health Policy paper has no labelled Discussion; the interpretive/recommendation section 'Call to action' (nested under the Results parent) functions as the Discussion. 'Conclusion' kept as-is."
+actions = [
+    { action = "rename_section", from_type = "results", title_contains = "Call to action", to_type = "discussion" },
+]
+
+# --- GM Results recovery (2026-06-27): parser failed to type genuine Results
+# sections in observational/trial articles (no explicit body "Results"/Lancet
+# "Findings" heading, or thematic findings headings typed methods/other).
+# Each verified to recover findings prose while keeping methods/discussion intact.
+# Requires the article's cleaned_text JSON to be reparsed with the current parser
+# (the override targets the current section titles/types). PMID 38588689 is NOT
+# fixable by override (parser dropped the post-table Findings prose entirely;
+# needs a parser/skip-block fix or re-extraction) and is intentionally omitted.
+
+[[overrides]]
+pmid = "27273013"
+journal = "Ann Intern Med"
+reason = "Results split across 'COMPARISON OF ALLHAT...' (typed other) and 'The Bayesian Design Executed' (typed methods); both are findings prose"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "COMPARISON OF ALLHAT", to_type = "results" },
+    { action = "rename_section", from_type = "methods", title_contains = "Bayesian Design Executed", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "32941059"
+journal = "Ann Intern Med"
+reason = "PMC HTML classifier mis-typed thematic section 'Early Patient Care Results' (audit findings prose) as methods; rename to results"
+actions = [
+    { action = "rename_section", from_type = "methods", title_contains = "early patient care results", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "37126810"
+journal = "Ann Intern Med"
+reason = "Methods-comparison paper with a worked empirical demonstration; cohort characteristics (typed other) and the effectiveness comparison (typed methods) are the genuine Results."
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Characteristics of the Cohort", to_type = "results" },
+    { action = "rename_section", from_type = "methods", title_contains = "Comparison of Estimated Vaccine Effectiveness", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "30357272"
+journal = "JAMA"
+reason = "Trial Methods->Results boundary missed; results subsections mis-typed methods. Rename the two unique-title results sections; split the four results sections whose titles collide with their methods-plan twins, anchoring on findings-only text."
+actions = [
+    { action = "rename_section", from_type = "methods", title_equals = "Participants", to_type = "results" },
+    { action = "split_section", from_type = "methods", title_contains = "Primary End Point", split_at = "part 1, the dose-finding part of the trial, the median", tail_to_type = "results", tail_title = "Primary End Point" },
+    { action = "split_section", from_type = "methods", title_contains = "Secondary End Points", split_at = "requirement of RRT (days 1-28) was 36.0%", tail_to_type = "results", tail_title = "Secondary End Points" },
+    { action = "split_section", from_type = "methods", title_contains = "Other End Points", split_at = "with recombinant alkaline phosphatase did not affect MAKE at 28 days", tail_to_type = "results", tail_title = "Other End Points" },
+    { action = "split_section", from_type = "methods", title_contains = "Adverse Events", split_at = "the safety data population (Table 2), 68 fatal SAEs", tail_to_type = "results", tail_title = "Adverse Events" },
+    { action = "rename_section", from_type = "methods", title_equals = "Post Hoc Analyses", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "37937776"
+journal = "N Engl J Med"
+reason = "Genomics article, no explicit body 'Results' heading; findings sit under thematic headings parser typed as methods. Relabel the two genuine results sections."
+actions = [
+    { action = "rename_section", from_type = "methods", title_contains = "Genotype, Life Span, and Cause of Death", to_type = "results" },
+    { action = "rename_section", from_type = "methods", title_contains = "Expanding the List of Actionable Genes", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "38381674"
+journal = "N Engl J Med"
+reason = "No 'Results' heading in body; findings split into two sections ('Participants', 'Biomarker Changes') misclassified as methods. Retype both to results."
+actions = [
+    { action = "rename_section", from_type = "methods", title_equals = "Participants", to_type = "results" },
+    { action = "rename_section", from_type = "methods", title_equals = "Biomarker Changes", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "31668728"
+journal = "Lancet"
+reason = "Lancet findings (mortality rates, MRRs, excess LYLs) parsed as 'other'; rename to results"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "All-cause mortality rates", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Mortality rates by specific causes", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Excess Life Years Lost", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "39615506"
+journal = "Lancet"
+reason = "GBD-style findings under thematic headings left as 'other'; relabel the four burden-result sections to results (true methods/discussion untouched)"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Global total attributable mortality burden", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Spatiotemporal variations", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Global socioeconomic disparities", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Leading countries", to_type = "results" },
+]
+
+# ============================================================================
+# 2026-06-28 — Empty-Results triage (reports/no_results_rootcause_2026-06-28.md)
+# ============================================================================
+
+# --- Mechanism 5: genuinely no Results section (innovation report / program
+#     description / case report / methodological guidance / conceptual essay).
+#     Not parse errors; flag non-IMRaD so they leave the IMRaD-results denominator.
+
+[[overrides]]
+pmid = "25410350"
+journal = "Med Teach"
+reason = "Curriculum innovation report (practice points + program narrative); no empirical results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_innovation_report" } ]
+
+[[overrides]]
+pmid = "26781094"
+journal = "Perspect Med Educ"
+reason = "Innovation (Live Research Demonstration); preliminary observations, no formal results"
+actions = [ { action = "set_non_imrad", reason = "manual_override_innovation_report" } ]
+
+[[overrides]]
+pmid = "26862841"
+journal = "Acad Med"
+reason = "Innovation report (mock academic faculty competition); outcomes narrated, no results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_innovation_report" } ]
+
+[[overrides]]
+pmid = "28906263"
+journal = "Acad Med"
+reason = "RAND governance report reprint (chaptered analysis); no IMRaD results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_report_reprint" } ]
+
+[[overrides]]
+pmid = "29533104"
+journal = "Med Teach"
+reason = "Curriculum-change program description; no empirical results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_program_description" } ]
+
+[[overrides]]
+pmid = "27224299"
+journal = "Acad Med"
+reason = "Conceptual/methods illustration (big-data/learning-analytics example); no empirical results"
+actions = [ { action = "set_non_imrad", reason = "manual_override_conceptual" } ]
+
+[[overrides]]
+pmid = "32722852"
+journal = "Med Educ"
+reason = "Conceptual paper (change-laboratory method with two worked examples); no results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_conceptual" } ]
+
+[[overrides]]
+pmid = "33394668"
+journal = "Acad Med"
+reason = "Narrative review of curricular integration strategies (Lessons Learned); no empirical results"
+actions = [ { action = "set_non_imrad", reason = "manual_override_narrative_review" } ]
+
+[[overrides]]
+pmid = "33788785"
+journal = "Acad Med"
+reason = "Instrument-development innovation (TuRBO); development steps, no formal results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_innovation_report" } ]
+
+[[overrides]]
+pmid = "34348379"
+journal = "Acad Med"
+reason = "Innovation report (virtual MPI); validity-evidence narrative, no results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_innovation_report" } ]
+
+[[overrides]]
+pmid = "34380935"
+journal = "Acad Med"
+reason = "Program description (P3 grant-writing program); no formal results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_program_description" } ]
+
+[[overrides]]
+pmid = "36574280"
+journal = "Acad Med"
+reason = "Innovation report (northern residency site); early successes narrated, no results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_innovation_report" } ]
+
+[[overrides]]
+pmid = "39283805"
+journal = "Acad Med"
+reason = "Curriculum-development innovation (patient-initiated mistreatment); no formal results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_innovation_report" } ]
+
+[[overrides]]
+pmid = "34766916"
+journal = "JMIR Med Educ"
+reason = "Conference report (Cerrahpasa Neuroscience Days); descriptive, no results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_descriptive_report" } ]
+
+[[overrides]]
+pmid = "37801350"
+journal = "JMIR Med Educ"
+reason = "Descriptive peer-teaching course report; no empirical results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_descriptive_report" } ]
+
+[[overrides]]
+pmid = "39041304"
+journal = "JMIR Med Educ"
+reason = "Descriptive course report (Life101); no formal results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_descriptive_report" } ]
+
+[[overrides]]
+pmid = "38946310"
+journal = "Med Teach"
+reason = "Innovation (Draw & Doodle simulation); educational challenge/solution/lessons, no results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_innovation_report" } ]
+
+[[overrides]]
+pmid = "37224801"
+journal = "Med Educ"
+reason = "Conceptual paper (transition theory for faculty development); no empirical results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_conceptual" } ]
+
+[[overrides]]
+pmid = "33248497"
+journal = "Lancet"
+reason = "Case report (first human facial retransplantation); case description + discussion, no results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_case_report" } ]
+
+[[overrides]]
+pmid = "36571841"
+journal = "Ann Intern Med"
+reason = "Methodological guidance article (Cox model validation); no empirical results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_methodological_guidance" } ]
+
+[[overrides]]
+pmid = "35385402"
+journal = "Acad Med"
+reason = "Conceptual model paper with small pilot; preliminary findings already typed results — flag non-IMRaD (conceptual, not an empirical study)"
+actions = [ { action = "set_non_imrad", reason = "manual_override_conceptual" } ]
+
+# --- Mechanism 5 (cont.): two further no-empirical-results papers reclassified
+#     here rather than recovered (instrument development / innovation report).
+
+[[overrides]]
+pmid = "39265094"
+journal = "Acad Med"
+reason = "Innovation report (co-produced simulation curriculum); cases describe the curriculum, no empirical results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_innovation_report" } ]
+
+[[overrides]]
+pmid = "32217852"
+journal = "Acad Med"
+reason = "Survey-instrument development (social mission tool); design + field-testing, no empirical results section"
+actions = [ { action = "set_non_imrad", reason = "manual_override_instrument_development" } ]
+
+# --- Mechanism 2: numbered-IMRaD articles whose top RESULTS header was dropped
+#     entirely (only the 3.x subsections survive, typed other/methods).
+#     Positional gap-inference mistypes essay sections, so recover per-article.
+
+[[overrides]]
+pmid = "32776345"
+journal = "Med Educ"
+reason = "Dropped 3 RESULTS header; 3.x results subsections left as other"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Utterance annotations", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Exploring F1 scores in scenario 1", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Exploring F1 scores in scenario 2", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Transferability from scenario 1", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "33185303"
+journal = "Med Educ"
+reason = "Dropped 3 RESULTS header; 3.1-3.3 results subsections left as other"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "3.1 | Comprehension", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "3.2 | Recall", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "3.3 | Decision-Making", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "33794035"
+journal = "Med Educ"
+reason = "Dropped 3 RESULTS header; cumulative/interview-position results left as other"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Cumulative interview season data", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Interview positions impact on", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "33978967"
+journal = "Med Educ"
+reason = "Dropped 3 RESULTS header; diagnostic-accuracy results left as other"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Diagnostic accuracy", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "34152027"
+journal = "Med Educ"
+reason = "Dropped 3 RESULTS header; 3.x phase results inherited methods (numbered prefix disambiguates from 2.x methods phases)"
+actions = [
+    { action = "rename_section", from_type = "methods", title_contains = "3.1 | Phase 1", to_type = "results" },
+    { action = "rename_section", from_type = "methods", title_contains = "3.2 | Phase 2", to_type = "results" },
+    { action = "rename_section", from_type = "methods", title_contains = "3.3 | Phase 3", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "34060096"
+journal = "Med Educ"
+reason = "Warwick accepted-ms: thematic results headings left as other between methods and discussion"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "conceptualisation of a trigger warning", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Rationale for using warnings", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Substitute for support", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Difficulties in predicting or identifying all stressors", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "3.4 Avoidance", to_type = "results" },
+]
+
+# --- Mechanism 4: results present under non-RESULTS headings (themes / quant
+#     subheads) typed other/methods/discussion. Per-article rename.
+
+[[overrides]]
+pmid = "27631895"
+journal = "Med Teach"
+reason = "RCT (pause procedure): result subsections inherited methods"
+actions = [
+    { action = "rename_section", from_type = "methods", title_contains = "Participant characteristics", to_type = "results" },
+    { action = "rename_section", from_type = "methods", title_contains = "Comparisons between traditional and pause procedure", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "29703093"
+journal = "Med Teach"
+reason = "Kolb learning-style study: result subsections inherited methods"
+actions = [
+    { action = "rename_section", from_type = "methods", title_contains = "Participant characteristics", to_type = "results" },
+    { action = "rename_section", from_type = "methods", title_contains = "Relationships between Kolb learning style", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "32889948"
+journal = "Acad Med"
+reason = "REI faculty-parity study: quantitative results typed other (true methods/discussion untouched)"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "National proportions and REIs", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Ten-year comparisons of national REIs", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "REI analysis of parity in advancement", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "36576768"
+journal = "Acad Med"
+reason = "EHR-attribution study: summary statistics / comparative performance results typed other/methods"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Summary statistics", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Generalizability of team-centered models", to_type = "results" },
+    { action = "rename_section", from_type = "methods", title_contains = "Comparative performance: Patient-centered", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "30739695"
+journal = "Lancet"
+reason = "Diversity study: results (magnified disadvantage + distribution table) typed other"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Magnified disadvantage of ethnic minority women", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Table 1: Sex and ethnicity distribution", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "35759753"
+journal = "JMIR Med Educ"
+reason = "Twitter-dissemination study: Principal Findings (event metrics) mis-typed discussion by reclassify rule; it is the results section"
+actions = [
+    { action = "rename_section", from_type = "discussion", title_contains = "Principal Findings", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "39678072"
+journal = "Perspect Med Educ"
+reason = "INC-VR feasibility study: Results for ... subsections inherited methods"
+actions = [
+    { action = "rename_section", from_type = "methods", title_contains = "Results for the suitability", to_type = "results" },
+    { action = "rename_section", from_type = "methods", title_contains = "Results for the feasibility", to_type = "results" },
+]
+
+[[overrides]]
+pmid = "27670246"
+journal = "Med Teach"
+reason = "White Rose repo version: Method and Results header tiny; case-study results typed other"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Exemplar case studies", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Rogue Examiner", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Mis-scoring Assessors", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Assessor judgements in resits", to_type = "results" },
+]
+
+# --- Mechanism 3: combined headings — split/rename to recover folded results.
+
+[[overrides]]
+pmid = "31083729"
+journal = "Ann Intern Med"
+reason = "Brief report with combined 'Methods and Findings' heading; split the findings (prevalence results) into results"
+actions = [
+    { action = "split_section", from_type = "methods", title_contains = "Methods and Findings", split_at = "The overall prevalence of any LBP was 26.4%", tail_to_type = "results", tail_title = "Findings" },
+]
+
+[[overrides]]
+pmid = "28640028"
+journal = "Acad Med"
+reason = "Pilot study ('Results From a Pilot Study'): metric-finding subsections scattered into discussion/conclusion; relabel them results, keep the final 'Discussion' section"
+actions = [
+    { action = "rename_section", from_type = "discussion", title_contains = "Internal metrics: Academic impact", to_type = "results" },
+    { action = "rename_section", from_type = "discussion", title_contains = "Academic performance", to_type = "results" },
+    { action = "rename_section", from_type = "discussion", title_contains = "Networks and relationships", to_type = "results" },
+    { action = "rename_section", from_type = "discussion", title_contains = "External metrics", to_type = "results" },
+    { action = "rename_section", from_type = "discussion", title_contains = "Impact across all partners", to_type = "results" },
+    { action = "rename_section", from_type = "discussion", title_contains = "In-depth analysis of the impact", to_type = "results" },
+    { action = "rename_section", from_type = "discussion", title_contains = "Lives touched", to_type = "results" },
+    { action = "rename_section", from_type = "discussion", title_contains = "The first level", to_type = "results" },
+    { action = "rename_section", from_type = "discussion", title_contains = "The second level", to_type = "results" },
+    { action = "rename_section", from_type = "discussion", title_contains = "The third level", to_type = "results" },
+    { action = "rename_section", from_type = "discussion", title_contains = "The fourth level", to_type = "results" },
+    { action = "rename_section", from_type = "discussion", title_contains = "Impact on community health", to_type = "results" },
+    { action = "rename_section", from_type = "conclusion", title_contains = "Training and mentoring of future research leaders", to_type = "results" },
+]
+
+# --- Residual hard cases (embedded results, no heading) ---
+
+[[overrides]]
+pmid = "33502276"
+journal = "Med Teach"
+reason = "Flipped-learning RCT: results embedded at tail of single 'Methods' block (no results heading); split out the outcomes"
+actions = [
+    { action = "split_section", from_type = "methods", title_contains = "Methods", split_at = "Students on FL spent in average 31.7 minutes on each video for a total of 24.8 hours", tail_to_type = "results", tail_title = "Results" },
+]
+
+[[overrides]]
+pmid = "31329019"
+journal = "Med Teach"
+reason = "Qualitative competency-framework development (NGT/Delphi): the framework (the study's result) is presented and interpreted together in the large Discussion; no cleanly separable empirical results section (cf. combined-R&D precedent). Flag non-IMRaD."
+actions = [ { action = "set_non_imrad", reason = "manual_override_qualitative_framework" } ]
+
+[[overrides]]
+pmid = "28024439"
+journal = "Med Teach"
+reason = "Mixed-methods MMI study: quantitative results + distinct qualitative themes typed other/introduction; relabel the unambiguous results sections (Gender/Language themes left untouched — titles collide with discussion subsections)"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "[Insert Table", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "MMI scores", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Linear regression model", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Qualitative data", to_type = "results" },
+    { action = "rename_section", from_type = "other", title_contains = "Age, maturity, socioeconomic status and the importance", to_type = "results" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Ethnocultural background and cultural values", to_type = "results" },
+]
+
+# =====================================================================
+# Salvage-42 methods recovery (2026-06-28) — NEW blocks (no prior override)
+# Reclassify program/study design/conduct/analysis sections -> methods.
+# See reports/salvage42_methods_classification_2026-06-28.md. 11 articles
+# with prior overrides were merged in place above; 30870150 & 31425183
+# intentionally gain no methods (no targetable / prior results call).
+# =====================================================================
+
+[[overrides]]
+pmid = "27144992"
+journal = "Acad Med"
+reason = "Salvage-42: innovation report — both intro blocks (Course description/administration) are program design = methods; body 'Problem' (background) was over-captured into the abstract → split it back to introduction (must run AFTER the intro->methods rename)"
+actions = [
+    { action = "rename_section", from_type = "introduction", to_type = "methods" },
+    { action = "split_section", from_type = "abstract", split_at = "The Web site for the Association of American Medical Colleges (AAMC) Careers", tail_to_type = "introduction" },
+]
+
+[[overrides]]
+pmid = "27779506"
+journal = "Acad Med"
+reason = "Salvage-42: empirical study — GCE data/SP encounter, survey of weights, and Analysis (other) are methods; background kept as intro"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "GCE", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Faculty preferences", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Analysis", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "28441674"
+journal = "Acad Med"
+reason = "Salvage-42: Kern-process steps (Guiding Principles/Preparing/Conducting/survey content = other) + Gathering Background Information (Steps 1-3) intro are methods"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Guiding Principles", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Gathering Background Information", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Preparing for the Stakeholder", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Conducting the Stakeholder", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "survey content", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "28445222"
+journal = "Acad Med"
+reason = "Salvage-42: protocol development + numbered build steps are methods; Background kept as intro"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Development of the UCLA", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "1. Identify key collaborators", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "2. Securing PEP supply", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "28471781"
+journal = "Acad Med"
+reason = "Salvage-42: all intro blocks are survey construction/content/administration = methods; Reporting the survey results (results) describes data analysis; body 'Problem' over-captured into abstract → split back to introduction (after the renames)"
+actions = [
+    { action = "rename_section", from_type = "introduction", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "Reporting the survey results", to_type = "methods" },
+    { action = "split_section", from_type = "abstract", split_at = "Leaders within academic medicine organizations such as deans, vice deans, and discipline chairs are at the crossroads", tail_to_type = "introduction" },
+]
+
+[[overrides]]
+pmid = "28640035"
+journal = "Acad Med"
+reason = "Salvage-42: development process + program/workshop activity descriptions are methods; rationale/general background kept as intro"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Program Development Process", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Program Description", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Preworkshop activities", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Workshop activities", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Ongoing program support", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "28953569"
+journal = "Acad Med"
+reason = "Salvage-42: Structure of the Current Curriculum = intervention design = methods; former-curriculum background kept as intro"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Structure of the Current Curriculum", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "29059072"
+journal = "Acad Med"
+reason = "Salvage-42: course/elective description + improvisation techniques taught are methods (intervention content); body 'Problem' over-captured into abstract → split back to introduction"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "About the Communicating Science", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Improvisation techniques", to_type = "methods" },
+    { action = "split_section", from_type = "abstract", split_at = "In a perfect world, health care professionals would be effective leaders who", tail_to_type = "introduction" },
+]
+
+[[overrides]]
+pmid = "29239902"
+journal = "Acad Med"
+reason = "Salvage-42: Survey (IRB exemption, sampling, administration) is methods; historical-background intro blocks retained"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Survey", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "29561275"
+journal = "Acad Med"
+reason = "Salvage-42: Reviewing Current Practices (literature search + survey data collection) is methods; earlier intro blocks are background"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Reviewing Current Practices", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "29727320"
+journal = "Acad Med"
+reason = "Salvage-42: course development, block descriptions, faculty-sponsor role, evaluation approach are methods; Background kept as intro"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Course development and adaptation", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "QI block descriptions", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Clinical faculty sponsors", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Evaluations", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "32889920"
+journal = "Acad Med"
+reason = "Salvage-42: committee charge/structure (intro) are methods; 'Outcomes' (sole results section, despite opening on assessment approach) kept as results; Statement of Problem kept as intro"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Committee charge", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Committee structure", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "33951675"
+journal = "Acad Med"
+reason = "Salvage-42: Kern Steps 1-6 (curriculum development/design/evaluation) mislabeled as results; participation/themes/observations stay results"
+actions = [
+    { action = "rename_section", from_type = "results", title_contains = "Step 1:", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "Step 2:", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "Step 3:", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "Step 4:", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "Step 5:", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "Step 6:", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "36512839"
+journal = "Acad Med"
+reason = "Salvage-42: how the EIS response was set up/conducted (operations + services delivered) mistyped as other; background/timeline kept"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "EISs and Operations", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Comprehensive health services", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "trauma-informed care", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Opportunities for continuing", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "36515560"
+journal = "Acad Med"
+reason = "Salvage-42: Simulating the Match (simulation construction/parameters) mistyped as introduction"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Simulating the Match", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "37478149"
+journal = "Acad Med"
+reason = "Salvage-42: Results from the Delphi process describes how the modified Delphi was conducted = methods; Outcomes (student-feedback themes) stays results"
+actions = [
+    { action = "rename_section", from_type = "results", title_contains = "Delphi process", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "39961086"
+journal = "Acad Med"
+reason = "Salvage-42: Kern Step 1 problem identification is methods; the 2,427w merged intro kept as genuine conceptual background"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "problem identification", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "26896020"
+journal = "Med Educ"
+reason = "Salvage-42: IM-OSCE/RCPSC/analyses methods blocks mistyped as other; genuine INTRODUCTION + results/discussion kept (from_type=other shields results-tagged duplicates)"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "IM-OSCE", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "RCPSC IM Examination", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Analyses", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Logistic regression", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "26052881"
+journal = "Med Teach"
+reason = "Salvage-42: competency-assessment workflow sections (Overview/EPA submission/Reviewing the EPA/Reviews discussion/Assessment decision) describe how the process is conducted = methods"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Overview", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "EPA submission", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Reviewing the EPA", to_type = "methods" },
+    { action = "rename_section", from_type = "discussion", title_contains = "Reviews discussion and summarization", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Assessment decision", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "29475391"
+journal = "Med Teach"
+reason = "Salvage-42: curriculum-model/pedagogy/assessment/governance/change-process sections describe how the reform was designed and led = methods"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Curriculum model", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "New topics in the curriculum", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Changes in pedagogy", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Changes in student assessment", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Curriculum management and governance structure", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Process of leading change", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "29490525"
+journal = "Med Teach"
+reason = "Salvage-42: design-principle/component sections (foundations/active learning/integration/MP/PA/faculty dev) describe how the curriculum was built = methods"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "foundations", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Active learning", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Cognitive integration", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Curricular integration", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Medical psychiatry", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Programmatic assessment", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Faculty development", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "29969328"
+journal = "Med Teach"
+reason = "Salvage-42: Interactive faculty development workshops describes how the intervention was built/delivered = methods; Introduction + Literature review kept as background"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "Interactive faculty development workshops", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "38039958"
+journal = "Med Teach"
+reason = "Salvage-42: Pilot survey (survey method) + Ethical considerations (study conduct) are methods; Strategies/Recognition/Modification kept as other (resource content)"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "Pilot survey", to_type = "methods" },
+    { action = "rename_section", from_type = "other", title_contains = "Ethical considerations", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "38350453"
+journal = "Med Teach"
+reason = "Salvage-42: the ethics-approval + adverse-event-report access + content-analysis quote-headed section is the co-design study method"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "It is so authentic", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "30953334"
+journal = "Perspect Med Educ"
+reason = "Salvage-42: show-and-tell — 'The story' mixes cited background (intro) + intervention/procedure (methods); split at the implementation turn, head stays introduction, tail->methods"
+actions = [
+    { action = "split_section", from_type = "introduction", title_contains = "The story", split_at = "Acting on the wake of ample literature", tail_to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "31165361"
+journal = "Perspect Med Educ"
+reason = "Salvage-42: show-and-tell — 'The story' mixes cited background (intro) + deferral-policy design/procedure (methods); split at the implementation turn, head stays introduction, tail->methods"
+actions = [
+    { action = "split_section", from_type = "introduction", title_contains = "The story", split_at = "Thus, when our counsellors expressed they were over-burdened", tail_to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "31823304"
+journal = "Perspect Med Educ"
+reason = "Salvage-42: The student curricular board (how SCB built, other) + Evaluation (survey administration, results) are methods; Results stays findings"
+actions = [
+    { action = "rename_section", from_type = "other", title_contains = "student curricular board", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "Evaluation", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "32253723"
+journal = "Perspect Med Educ"
+reason = "Salvage-42: The activity describes the QR-code intervention design + participants = methods; The story stays background"
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "The activity", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "34519019"
+journal = "Perspect Med Educ"
+reason = "Salvage-42: show-and-tell — 'The story' mixes cited background+aim (intro) + participants/ethics/procedure/analysis (methods); split at enrollment, head stays introduction, tail->methods"
+actions = [
+    { action = "split_section", from_type = "introduction", title_contains = "The story", split_at = "To do so, all postgraduate year (PGY) 1, 2 and 3 residents", tail_to_type = "methods" },
+]
+
+# --- Methods-7 salvage (2026-06-28): empty-Methods IMRaD articles whose METHODS
+# heading was lost in PDF extraction. NEJM Brief Reports fold the background into
+# the parsed `abstract` block (split_section recovers the Introduction) and label
+# Methods only via subsection titles (Study Medication/Prestudy Evaluation,
+# Study Family/Genetic and Molecular Analyses). Verified: the split-off background
+# paragraphs carry ZERO deontic markers, so the primary total is unchanged.
+# See reports/_methods7_sections.md and memory salvage42_methods_round11.
+
+[[overrides]]
+pmid = "27468060"
+journal = "N Engl J Med"
+reason = "Methods-7: NEJM Brief Report. Background (para 2-3) merged into parsed abstract -> split back to introduction. 'Study Medication' (study design/ethics/consent) + 'Prestudy Evaluation' (assessment protocol) are Methods, mis-typed intro/results by position inference."
+actions = [
+    { action = "split_section", from_type = "abstract", split_at = "Melanocyte-stimulating hormone, which is produced from proopiomelanocortin", tail_to_type = "introduction" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Study Medication", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "Prestudy Evaluation", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "29514032"
+journal = "N Engl J Med"
+reason = "Methods-7: NEJM Brief Report. Background (para 2) merged into parsed abstract -> split back to introduction. 'Study Family' (cohort/ethics) + 'Genetic and Molecular Analyses' (linkage/CRISPR/RACE methods) are Methods, mis-typed introduction by position inference."
+actions = [
+    { action = "split_section", from_type = "abstract", split_at = "Inherited forms of primary erythrocytosis", tail_to_type = "introduction" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Study Family", to_type = "methods" },
+    { action = "rename_section", from_type = "introduction", title_contains = "Genetic and Molecular Analyses", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "30530519"
+journal = "BMJ"
+reason = "Methods-7: BMJ Analysis (12-country multisectoral case studies). The methodology subsections (how success factors elucidated / preliminary analyses / thematic synthesis / robustness assessment) are Methods, mis-typed intro/results; intro [1] stays background, findings (model/Drive change.../Capture success) stay results."
+actions = [
+    { action = "rename_section", from_type = "introduction", title_contains = "How success factors were elucidated", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "Conducting preliminary analyses", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "Synthesising higher level", to_type = "methods" },
+    { action = "rename_section", from_type = "results", title_contains = "Assessing the robustness", to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "27893080"
+journal = "Ann Intern Med"
+reason = "Methods-7: MMWR field report reprinted in Annals. Author list + structured summary + background + case-ascertainment methods + results data were merged into one introduction block (heading loss). Carve the results data (case counts/demographics/lab evidence) and the methods (case definition, serologic criteria, data collection) out of the tail; head keeps the background. Split results FIRST then methods so the methods anchor still resolves within the head."
+actions = [
+    { action = "split_section", from_type = "introduction", split_at = "a total of 116 residents of 33 states and the District of Columbia with laboratory evidence of recent Zika virus infection were identified on the basis of testing at CDC", tail_to_type = "results" },
+    { action = "split_section", from_type = "introduction", split_at = "Zika virus disease cases among residents of U.S. states with specimens tested at", tail_to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "30870150"
+journal = "Acad Med"
+reason = "Methods-7: Acad Med Innovation Report (Problem/Approach/Outcomes/Next Steps). The Approach (program design + operational workflow of the Exceptional Teacher Initiative) was typed introduction; split at the implementation turn so the conceptual rationale stays introduction and the build/workflow becomes methods. Outcomes already=results, Next Steps already=discussion."
+actions = [
+    { action = "split_section", from_type = "introduction", split_at = "Guided by these conceptualizations, the ORLE director and the vice deans", tail_to_type = "methods" },
+]
+
+[[overrides]]
+pmid = "39556835"
+journal = "Ann Intern Med"
+reason = "Methods-7: Annals 'Medicine and Public Issues' policy commentary analysing FDA records/litigation; not an original study, no methods section. Exclude from IMRaD."
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_policy_commentary" },
+]
+
+[[overrides]]
+pmid = "31425183"
+journal = "Acad Med"
+reason = "Methods-7: Acad Med analytic commentary on MCAT group differences; no standalone methods section (single results block, with conclusions/next-steps). Exclude from IMRaD."
+actions = [
+    { action = "set_non_imrad", reason = "manual_override_analytic_commentary" },
+]

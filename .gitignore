@@ -1,0 +1,32 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# --- Secrets / local config ---
+.env
+.env.*
+
+# --- Large shared data (placed from Google Drive; never committed) ---
+/data/interim/
+/data/raw/
+/data/processed/*.parquet
+/data/processed/screening_results.csv
+/data/processed/screening_*review*.tsv
+/data/.browser_downloads/
+/data/.debug_screenshots/
+
+# --- Generated outputs ---
+/results/
+/logs/
+
+# --- Reproducibility working dir ---
+/reproducibility/work/*
+!/reproducibility/work/.gitkeep
+
+# The single small data file that ships with the repo is tracked explicitly;
+# it is not matched by the patterns above.

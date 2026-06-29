@@ -1,0 +1,162 @@
+# ============================================================
+# normative-discourse: Default Settings
+# ============================================================
+# Priority: CLI args > .env > this file
+
+[general]
+project_name = "normative-discourse"
+log_level = "INFO"
+log_dir = "logs"
+
+[pubmed]
+# Target journals for the study (NLM Title Abbreviations for PubMed [ta] field)
+general_medical_journals = [
+    "Lancet",
+    "N Engl J Med",
+    "JAMA",
+    "BMJ",
+    "Ann Intern Med",
+]
+medical_education_journals = [
+    "JMIR Med Educ",
+    "Acad Med",
+    "Med Educ",
+    "Med Teach",
+    "Perspect Med Educ",
+]
+# Publication date range
+date_start = "2025/01/01"
+date_end = "2025/12/31"
+# Inclusion: publication type filter
+publication_types = ["Journal Article"]
+# Exclusion: publication types to remove
+exclude_publication_types = [
+    "Review",
+    "Systematic Review",
+    "Meta-Analysis",
+    "Editorial",
+    "Comment",
+    "Letter",
+    "Case Reports",
+    "Practice Guideline",
+    "Guideline",
+    "Published Erratum",
+    "Retracted Publication",
+]
+# Language and abstract filters
+language = "english"
+require_abstract = true
+
+# Journal-specific title-based exclusion patterns (regex).
+# Applied in Stage 2 in addition to publication type filters.
+[pubmed.title_exclusion_patterns]
+"Ann Intern Med" = [
+    '(?i)^\s*The\s+Target\s+Trial\s+Framework\s+for\s+Causal\s+Inference\s+From\s+Observational\s+Data\b',
+]
+"BMJ" = [
+    '(?i)^\s*Core\s+GRADE\b',
+]
+"JMIR Med Educ" = [
+    '(?i)\b(?:systematic|scoping|narrative|rapid|umbrella|literature)\s+review\b',
+    '(?i)^\s*Twelve\s+Practical\s+Tips\b',
+    '(?i)^\s*From\s+Hype\s+to\s+Implementation:\s+Embedding\s+GPT-4o\s+in\s+Medical\s+Education\.?\s*$',
+]
+"Acad Med" = [
+    '(?i)^\s*The\s+Science\s+of\s+Statistical\s+Practice\.?\s*$',
+]
+"Med Teach" = [
+    '(?i)\b(?:AMEE\s*Guide(?:s)?|BEME\s*guide)\b',
+    '(?i)^\s*Twelve\s+tips\b',
+]
+
+[pubmed.abstract_exclusion_patterns]
+"JMIR Med Educ" = [
+    '(?i)\b(?:In\s+this|This)\s+tutorial\b',
+    '(?i)\bthis\s+tutorial\s+(?:describes|presents|provides)\b',
+    '(?i)\bwe\s+provide\s+(?:practical\s+)?guidance\b',
+]
+
+[remediation]
+# Journal-specific section heading overrides.
+# These supplement the global _TITLE_PATTERNS in pmc_client.py.
+# Keys are NLM Title Abbreviations (= Parquet ``journal`` column values).
+# Applied during _reclassify_sections() when the journal matches.
+# Journal-specific patterns take priority over global patterns.
+
+[remediation.journal_title_patterns]
+# Perspect Med Educ: innovation report headings → IMRaD equivalents
+"Perspect Med Educ" = [
+    { pattern = '(?i)\bgoal\s+of\s+(?:the\s+)?innovation\b', section_type = "methods" },
+    { pattern = '(?i)\bsteps?\s+taken\b', section_type = "methods" },
+]
+
+[preprocessing]
+# Section heading mapping
+standard_sections = [
+    "Abstract",
+    "Introduction",
+    "Methods",
+    "Results",
+    "Discussion",
+]
+
+[detection]
+# Deontic modal expressions to detect (vocabulary lists only;
+# regex compilation and group mapping are handled in code).
+target_expressions = [
+    "must",
+    "should",
+    "need to",
+    "needs to",
+    "have to",
+    "has to",
+    "had to",
+    "have got to",
+    "has got to",
+    "had got to",
+    "required to",
+    "ought to",
+]
+# Negation variants tracked separately
+negation_expressions = [
+    "must not",
+    "mustn't",
+    "should not",
+    "shouldn't",
+    "need not",
+    "needn't",
+    "do not need to",
+    "don't need to",
+    "does not need to",
+    "doesn't need to",
+    "did not need to",
+    "didn't need to",
+]
+# Context window (words before/after match)
+context_window = 10
+# Sections to analyze (default: abstract only; extend for body analysis)
+default_sections = ["abstract_pubmed"]
+
+[statistics]
+# Frequency normalization
+normalization_base = 1000
+# Multiple comparison correction
+correction_method = "bonferroni"
+# Significance level
+alpha = 0.05
+
+[paths]
+# Data directories (relative to project root)
+raw_pubmed = "data/raw/pubmed"
+raw_pdf = "data/raw/pdf"
+raw_pmc_xml = "data/raw/pmc_xml"
+raw_fulltext = "data/raw/fulltext"
+raw_fulltext_pdf = "data/raw/fulltext/pdf"
+raw_fulltext_xml = "data/raw/fulltext/publisher_xml"
+interim_adobe_json = "data/interim/adobe_json"
+interim_cleaned_text = "data/interim/cleaned_text"
+processed_corpus = "data/processed/corpus_by_section"
+detection_inventory = "data/processed/section_inventory.parquet"
+detection_matches = "data/processed/matches.parquet"
+results_output = "results/output"
+

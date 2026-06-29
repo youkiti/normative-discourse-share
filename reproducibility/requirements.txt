@@ -1,0 +1,29 @@
+# Minimal Python dependencies for the reproduction path ONLY.
+# (selenium / undetected-chromedriver / pdfservices-sdk / google-genai are NOT
+#  needed here -- those belong to upstream retrieval & Adobe extraction, which we
+#  do not reproduce.)
+#
+# Install:  pip install -r reproducibility/requirements.txt
+# Do NOT `pip install -e .` -- that pulls in the full pyproject dependency set.
+# The wrappers put <repo>/src on PYTHONPATH instead.
+
+# Corpus build + section segmentation (existing src package)
+pandas>=2.1.0
+polars>=0.20.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+typer>=0.9.0
+rich>=13.0.0
+beautifulsoup4>=4.12.0
+lxml>=5.0.0
+python-dotenv>=1.0.0
+
+# Parquet IO
+pyarrow>=14.0.0   # on ARM64 Windows this may be unavailable; polars handles parquet too
+
+# Frequency analysis (G-squared, secondary)
+scipy>=1.11.0
+
+# NOTE: the primary statistics (Table 2 & Table 3) run in R, not Python.
+#   R >= 4.5 with packages: arrow, data.table
+#   install.packages(c("arrow", "data.table"))
