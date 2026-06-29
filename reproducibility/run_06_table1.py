@@ -19,6 +19,17 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+# The final summary prints a polars table whose box-drawing characters cannot be
+# encoded by legacy consoles (e.g. cp932 on Japanese Windows), which would crash
+# this step AFTER the CSVs are already written. Force UTF-8 on our own stdout so
+# the documented standalone invocation works regardless of the console codepage.
+# (run_all.py already sets PYTHONUTF8=1 for child processes; this covers the
+# direct `python run_06_table1.py` case.)
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except (AttributeError, ValueError):  # stdout may not be a reconfigurable stream
+    pass
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import polars as pl  # noqa: E402
