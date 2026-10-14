@@ -71,6 +71,22 @@ checks them against the manuscript (exits non-zero on any mismatch).
 
 ---
 
+## Use of AI tools
+
+The data-processing and analysis code in this repository was written with the
+assistance of Claude Code (Anthropic), an AI coding assistant. The authors
+specified the analyses, reviewed the code, checked intermediate outputs
+(including manual review of flagged section-segmentation records), and verified
+the final numbers against the manuscript; the authors take full responsibility
+for the code and results.
+
+Eligibility screening of titles and PubMed abstracts was assisted by a large
+language model (Gemini 3.1 Flash-Lite, preview version; Google), with a subset
+of its decisions reviewed manually. That screening step is upstream of this
+package, which starts from the frozen corpus.
+
+---
+
 ## License
 
 - **Code** — MIT License (see [`LICENSE`](LICENSE)).
