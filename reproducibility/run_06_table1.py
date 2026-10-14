@@ -8,6 +8,7 @@ JA: Table 1 を frozen コーパスから直接算出。解析対象 `~is_non_im
     describe-corpus は非 IMRaD 156 を含む全 10,899 行を出すため Table 1 とは一致しない。
 
 Input   : data/processed/articles_corpus_10yr_clean.parquet
+          data/processed/section_inventory.parquet (step 03; section lengths)
 Outputs : reproducibility/work/table1_counts.csv     (journal / field / period / presence)
           reproducibility/work/table1_section_words.csv (section length median + IQR)
 
@@ -34,10 +35,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import polars as pl  # noqa: E402
 
-from _env import CLEAN_PARQUET  # noqa: E402
+from _env import CLEAN_PARQUET, INVENTORY_PARQUET  # noqa: E402
 
 WORK = Path(__file__).resolve().parent / "work"
-SECTION_COLS = ["abstract_pubmed", "introduction", "methods", "results", "discussion"]
+LENGTH_UNITS = {
+    "body": ["abstract_pubmed", "introduction", "methods", "results", "discussion", "conclusion"],
+    "abstract_pubmed": ["abstract_pubmed"],
+    "introduction": ["introduction"],
+    "methods": ["methods"],
+    "results": ["results"],
+    "discussion": ["discussion", "conclusion"],
+}
 JOURNAL_ORDER = {
     "medical_education": ["Acad Med", "Med Teach", "Med Educ", "JMIR Med Educ", "Perspect Med Educ"],
     "general_medicine": ["N Engl J Med", "Lancet", "JAMA", "BMJ", "Ann Intern Med"],
@@ -48,20 +56,14 @@ def _present(df: pl.DataFrame, col: str) -> int:
     return df.filter(pl.col(col).is_not_null() & (pl.col(col).str.strip_chars() != "")).height
 
 
-def _wordcount_expr(col: str) -> pl.Expr:
-    # Whitespace tokenisation, matching the corpus describer's notion of "words".
-    return (
-        pl.col(col).fill_null("").str.strip_chars().str.split(by=" ")
-        .list.eval(pl.element().filter(pl.element().str.strip_chars() != ""))
-        .list.len()
-        .alias(f"_wc_{col}")
-    )
-
-
 def main() -> int:
     if not CLEAN_PARQUET.exists():
         print(f"[FAIL] frozen corpus not found: {CLEAN_PARQUET}")
         print("Run run_02_strip_references.py first.")
+        return 1
+    if not INVENTORY_PARQUET.exists():
+        print(f"[FAIL] section inventory not found: {INVENTORY_PARQUET}")
+        print("Run run_03_detect_deontic.py first.")
         return 1
 
     WORK.mkdir(parents=True, exist_ok=True)
@@ -105,22 +107,29 @@ def main() -> int:
     counts_df.write_csv(counts_path)
 
     # --- section length: median + IQR (overall and by field) ---
-    wc = df.with_columns([_wordcount_expr(c) for c in SECTION_COLS] + [
-        pl.col("word_count").alias("_wc_body")
-    ])
+    # Lengths use the word counts of the analysed text (section_inventory.parquet
+    # from step 03), i.e. the same denominators as the rate models: "body" is the
+    # PubMed abstract + Introduction..Conclusion, "abstract_pubmed" is the PubMed
+    # abstract, and "discussion" folds in the Conclusion (as in Table 3).
+    inv = pl.read_parquet(INVENTORY_PARQUET, columns=["pmid", "section", "word_count"])
+    fields = df.select(pl.col("pmid").cast(pl.Utf8), "journal_field")
+    inv = inv.with_columns(pl.col("pmid").cast(pl.Utf8))
     swc_rows: list[dict] = []
-    for col in ["_wc_body"] + [f"_wc_{c}" for c in SECTION_COLS]:
-        name = col.replace("_wc_", "")
+    for name, secs in LENGTH_UNITS.items():
+        wc = (inv.filter(pl.col("section").is_in(secs))
+              .group_by("pmid").agg(pl.col("word_count").sum())
+              .join(fields, on="pmid", how="inner"))
         for field in ("all", "medical_education", "general_medicine"):
             sub = wc if field == "all" else wc.filter(pl.col("journal_field") == field)
             # Section length is computed over articles where the section is present.
-            vals = sub.filter(pl.col(col) > 0)[col]
+            vals = sub.filter(pl.col("word_count") > 0)["word_count"]
             if vals.len() == 0:
                 continue
             swc_rows.append({
                 "section": name, "field": field, "n": vals.len(),
                 "median": float(vals.median()),
-                "q1": float(vals.quantile(0.25)), "q3": float(vals.quantile(0.75)),
+                "q1": float(vals.quantile(0.25, "linear")),
+                "q3": float(vals.quantile(0.75, "linear")),
             })
     swc_df = pl.DataFrame(swc_rows)
     swc_path = WORK / "table1_section_words.csv"
