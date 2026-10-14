@@ -1,11 +1,14 @@
-# Minimal Python dependencies for the reproduction path ONLY.
-# (selenium / undetected-chromedriver / pdfservices-sdk / google-genai are NOT
-#  needed here -- those belong to upstream retrieval & Adobe extraction, which we
-#  do not reproduce.)
+# Minimal Python dependencies for the main reproduction path (run_all.py) ONLY.
+# selenium / undetected-chromedriver / pdfservices-sdk belong to upstream
+# retrieval & Adobe extraction, which we do not reproduce. google-genai is
+# optional for reference screening and is not needed by the main path.
 #
 # Install:  pip install -r reproducibility/requirements.txt
 # Do NOT `pip install -e .` -- that pulls in the full pyproject dependency set.
 # The wrappers put <repo>/src on PYTHONPATH instead.
+
+# Optional: needed only for ref_screen_abstracts.py; install separately if used.
+# google-genai
 
 # Corpus build + section segmentation (existing src package)
 pandas>=2.1.0

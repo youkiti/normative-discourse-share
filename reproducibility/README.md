@@ -14,6 +14,7 @@ Reproduces **Table 1, Table 2, and Table 3** of `manuscripts/methods_results.md`
 | ---------------------------------------------------------- | --------------------------------------- |
 | PubMed retrieval, full-text download                       | ❌ upstream / 対象外                    |
 | PDF → text (Adobe PDF Extract API)                        | ❌ upstream / 対象外                    |
+| Title/abstract eligibility (Gemini 3.1 Flash-Lite, preview) | Reference only / 参照のみ・再実行なし |
 | **text (JSON) → corpus → detection → statistics** | ✅**this package / 本パッケージ** |
 
 EN: The Adobe step is impractical to re-run, so the **already text-extracted data**
@@ -42,10 +43,10 @@ pip install -r reproducibility/requirements.txt
 
 > **Do NOT run `pip install -e .`** — that pulls the full dependency set
 > (selenium / Adobe SDK / google-genai). The wrappers put `src/` on `PYTHONPATH`
-> themselves. No `.env` / API keys are needed (this path never goes online).
+> themselves. The main path (`run_all.py`) needs no `.env` / API keys and never goes online.
 >
 > `pip install -e .` は使わないでください（不要な依存が入ります）。ラッパが `src/` を
-> `PYTHONPATH` に追加します。`.env` や API キーは不要です（ネット接続しません）。
+> `PYTHONPATH` に追加します。主経路 (`run_all.py`) は `.env`・API キー不要で、ネット接続しません。
 
 ---
 
@@ -133,6 +134,55 @@ python reproducibility/verify_numbers.py
 
 ---
 
+### Reference screening / 参照用スクリーニング
+
+EN: `ref_screen_abstracts.py` screens titles and PubMed abstracts using Gemini
+3.1 Flash-Lite (preview), with optional stratified human-review sampling.
+`run_all.py` does not run it. It requires the optional `google-genai` package,
+`GEMINI_API_KEY` in `.env` (or the environment), and network access.
+Because the model is a preview and LLM output is nondeterministic, a re-run is
+not expected to reproduce the original decisions exactly. Tables use the frozen
+`screening_results.csv` and the two human-review TSVs listed above.
+
+JA: `ref_screen_abstracts.py` は Gemini 3.1 Flash-Lite（プレビュー版）でタイトル・
+PubMed 抄録を判定し、任意で層別の人手レビュー標本を生成します。`run_all.py` は実行しません。
+任意依存の `google-genai`、`.env`（または環境変数）の `GEMINI_API_KEY` とネット接続が必要です。
+プレビューモデルであり出力が非決定的なため、元の判定の完全再現は期待できません。
+表の再現には凍結済み `screening_results.csv` と上記の人手レビュー TSV 2 ファイルを使います。
+
+EN: Build the input with `build-corpus --no-apply-screening`; the default draft
+from `run_01` is already filtered. Place the shared inputs, including the abstract
+cache, first (Section 2). Run these commands from the repository root:
+
+JA: 入力は `build-corpus --no-apply-screening` で作成してください。`run_01` の通常の
+draft は判定適用済みです。先に抄録キャッシュを含む共有入力を配置し（第 2 節）、
+リポジトリルートで次を実行します。
+
+```bash
+pip install google-genai
+PYTHONPATH=src python -m normative_discourse.cli.main build-corpus \
+  --articles-csv data/raw/pubmed/articles_2016_2025_included.csv --no-apply-screening \
+  --output reproducibility/work/articles_corpus_prescreen.parquet
+python reproducibility/ref_screen_abstracts.py \
+  --input reproducibility/work/articles_corpus_prescreen.parquet --generate-review
+```
+
+EN: Screening needs `pmid`, `title`, and `abstract_pubmed`; review sampling also
+needs `journal`. Defaults are concurrency 20, review seed 20260309, and resume on
+(`--no-resume` disables it). `--dry-run` screens the first 5 pending articles via
+the API and skips review sampling. Outputs default to
+`reproducibility/work/screening_results_rerun.csv` and
+`reproducibility/work/screening_review_sample_rerun.tsv`. Frozen inputs under
+`data/processed/` are never overwritten; the wrapper rejects those output paths.
+
+JA: 判定には `pmid`, `title`, `abstract_pubmed`、レビューには加えて `journal` が必要です。
+既定は同時実行数 20、標本シード 20260309、再開あり（`--no-resume` で無効）です。
+`--dry-run` も API を使い、未処理の先頭 5 件のみ判定し、レビュー標本は生成しません。
+出力先の既定は上記の `reproducibility/work/` 内の CSV・TSV です。
+`data/processed/` の凍結入力は上書きせず、該当する出力パスの指定は拒否します。
+
+---
+
 ## 4. Verify / 検証
 
 ```bash
@@ -168,7 +218,7 @@ on any mismatch. Expected (all currently PASS, 33/33):
   10,743 with `is_non_imrad == false`. `run_06_table1.py` computes Table 1 from
   the parquet under that filter; `describe-corpus` is only an optional QC view.
   / `describe-corpus` は非 IMRaD 156 を含む 10,899 行を出すため Table 1 とは一致しません。
-- **Determinism.** The whole path is rule-based / deterministic; reruns reproduce
+- **Determinism.** The main path (`run_all.py`) is rule-based / deterministic; reruns reproduce
   the numbers exactly. The R model uses fixed quadrature (no RNG).
 - **Smoke test before the full download.** A quick sanity run on 20 articles:
   ```bash
