@@ -6,7 +6,6 @@ JA: 公開ラベルから集計し、ローカルのコーパスがあれば再�
 from __future__ import annotations
 
 import csv
-import hashlib
 import json
 import sys
 from pathlib import Path
@@ -18,18 +17,25 @@ from _env import (  # noqa: E402
     CLEAN_PARQUET, COMBINED_CSV, MATCHES_PARQUET, REPO_ROOT, SPEAKER_LABELS, run,
 )
 
+sys.path.insert(0, str(REPO_ROOT / "scripts/quote_check"))
+
+from tally_speaker import canonical_sha256  # noqa: E402
+
 IDENTITY_COLUMNS = [
     "pmid", "journal", "journal_field", "expression", "expression_group", "start_char", "end_char",
 ]
 
 
 def check_redraw(sample_path: Path, labels_path: Path) -> bool:
-    """Check all sampled identities and the original byte-level fingerprint."""
+    """Check all sampled identities and the LF-normalized fingerprint."""
     raw = sample_path.read_bytes()
     sample = json.loads(raw)
     with labels_path.open(encoding="utf-8", newline="") as handle:
         labels = list(csv.DictReader(handle))
     meta = json.loads(labels_path.with_suffix(".meta.json").read_text(encoding="utf-8"))
+    if "sample_sha256_lf" not in meta:
+        print("[FAIL] labels metadata missing sample_sha256_lf; re-export labels")
+        return False
     by_id = {r["id"]: r for r in labels}
     ids = [r["id"] for r in sample]
     identities_match = (len(ids) == len(set(ids)) == len(labels) == len(by_id)
@@ -39,9 +45,9 @@ def check_redraw(sample_path: Path, labels_path: Path) -> bool:
             str(record[col]) == by_id[record["id"]][col]
             for record in sample for col in IDENTITY_COLUMNS
         )
-    hash_matches = hashlib.sha256(raw).hexdigest() == meta["sample_sha256"]
+    hash_matches = canonical_sha256(raw) == meta["sample_sha256_lf"]
     print(f"[{'PASS' if identities_match else 'FAIL'}] redrawn sample identifiers and offsets")
-    print(f"[{'PASS' if hash_matches else 'FAIL'}] redrawn sample SHA-256")
+    print(f"[{'PASS' if hash_matches else 'FAIL'}] redrawn sample SHA-256 (LF-normalized)")
     return identities_match and hash_matches
 
 

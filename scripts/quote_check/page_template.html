@@ -133,38 +133,46 @@ async function write(r, body) {
     return false;
   }
 }
-// One write at a time: a second key press or a move while a save is pending is ignored,
-// and the cursor advances only from the record that was saved.
+// Serialize note and speaker writes; ignore a second answer while one is pending.
+// The cursor advances only from the record that was saved.
 let saving = false;
+let writeQueue = Promise.resolve();
+function queueWrite(task) {
+  const pending = writeQueue.then(task);
+  writeQueue = pending.catch(() => {});
+  return pending;
+}
 async function choose(k) {
   if (saving) return;
   saving = true;
   const idx = cur;
   const r = RECORDS[idx];
-  const prev = answers[r.id];
-  const note = document.querySelector("textarea")?.value ?? prev?.note ?? "";
-  const body = { speaker: k, note, sonnet_speaker: r.sonnet.speaker, updated_at: new Date().toISOString() };
-  answers[r.id] = body;
-  render();
-  const ok = await write(r, body);
-  saving = false;
-  if (!ok) {
+  const typed = document.querySelector("textarea")?.value;
+  const ok = await queueWrite(async () => {
+    const prev = answers[r.id];
+    const body = { speaker: k, note: typed ?? prev?.note ?? "", sonnet_speaker: r.sonnet.speaker, updated_at: new Date().toISOString() };
+    answers[r.id] = body;
+    render();
+    if (await write(r, body)) return true;
     if (prev) answers[r.id] = prev; else delete answers[r.id];
     render();
-    return;
-  }
-  if (cur !== idx) return;
+    return false;
+  });
+  saving = false;
+  if (!ok || cur !== idx) return;
   if (onlyTodo) { nextTodo(); return; }
   if (cur < RECORDS.length - 1) { cur++; render(); }
 }
 async function saveNote(r, note) {
-  const prev = answers[r.id];
-  if ((prev?.note || "") === note) return;
-  const body = { speaker: prev?.speaker || "", note, sonnet_speaker: r.sonnet.speaker, updated_at: new Date().toISOString() };
-  answers[r.id] = body;
-  if (!(await write(r, body))) {
-    if (prev) answers[r.id] = prev; else delete answers[r.id];
-  }
+  await queueWrite(async () => {
+    const prev = answers[r.id];
+    if ((prev?.note || "") === note) return;
+    const body = { speaker: prev?.speaker || "", note, sonnet_speaker: r.sonnet.speaker, updated_at: new Date().toISOString() };
+    answers[r.id] = body;
+    if (!(await write(r, body))) {
+      if (prev) answers[r.id] = prev; else delete answers[r.id];
+    }
+  });
 }
 const isTodo = r => !answers[r.id]?.speaker;
 function nextTodo() {

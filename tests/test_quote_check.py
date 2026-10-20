@@ -454,7 +454,7 @@ def exported_labels(judged_inputs, tmp_path):
 
 def normalize_report(report):
     return [line for line in report.splitlines() if not (
-        "SHA-256:" in line or line.startswith("Evidence empty or not verbatim (ids):")
+        "SHA-256" in line or line.startswith("Evidence empty or not verbatim (ids):")
     )]
 
 
@@ -472,17 +472,20 @@ def test_export_round_trip_and_public_schema(exported_labels, monkeypatch, tmp_p
     meta = json.loads(out.with_suffix(".meta.json").read_bytes())
     assert meta == {
         "sample_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        "sample_sha256_lf": tally.canonical_sha256(path.read_bytes()),
         "seed": 20261018, "n_per_field": 100, "window": 600,
         "sonnet_evidence_unverifiable_ids": ["q001"],
         "sonnet_v1_evidence_unverifiable_ids": ["q001"],
     }
+    assert list(meta)[:2] == ["sample_sha256", "sample_sha256_lf"]
     for public_path in (out, out.with_suffix(".meta.json")):
         assert "PRIVATE" not in public_path.read_text(encoding="utf-8")
     sample_report = tally.make_report(path, directory, human, sonnet_v1_dir=directory)
     labels_report = tally.make_labels_report(out)
     assert normalize_report(labels_report) == normalize_report(sample_report)
-    assert labels_report.splitlines()[2:4] == [
+    assert labels_report.splitlines()[2:5] == [
         f"Upstream sample SHA-256: `{meta['sample_sha256']}`",
+        f"Upstream sample SHA-256 (LF-normalized): `{meta['sample_sha256_lf']}`",
         f"Labels SHA-256: `{hashlib.sha256(out.read_bytes()).hexdigest()}`",
     ]
     evidence_line = ("Evidence empty or not verbatim (ids): q001 "
@@ -587,12 +590,51 @@ def test_redraw_identity_and_hash_checks(exported_labels, monkeypatch):
     write_json(path, sample)
     meta_path = out.with_suffix(".meta.json")
     meta = json.loads(meta_path.read_bytes())
-    meta["sample_sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+    meta["sample_sha256_lf"] = tally.canonical_sha256(path.read_bytes())
     write_json(meta_path, meta)
     assert not check(path, out)
     sample[0]["expression"] = "must"
     write_json(path, sample)
     assert not check(path, out)
+
+
+def test_redraw_canonical_hash_across_line_endings(exported_labels, capsys):
+    import runpy
+
+    wrapper = runpy.run_path(str(SCRIPT_DIR.parents[1] / "reproducibility/run_08_speaker_check.py"))
+    check = wrapper["check_redraw"]
+    out, path, _, _ = exported_labels
+    lf = path.read_bytes().replace(b"\r\n", b"\n")
+    crlf = lf.replace(b"\n", b"\r\n")
+    assert lf != crlf
+    assert tally.canonical_sha256(lf) == tally.canonical_sha256(crlf)
+    assert tally.canonical_sha256(lf) == hashlib.sha256(lf).hexdigest()
+    for raw in (crlf, lf):
+        path.write_bytes(raw)
+        assert check(path, out)
+        assert "[PASS] redrawn sample SHA-256 (LF-normalized)" in capsys.readouterr().out
+    sample = json.loads(lf)
+    sample[0]["before"] += "changed passage"
+    write_json(path, sample)
+    assert not check(path, out)
+    output = capsys.readouterr().out
+    assert "[PASS] redrawn sample identifiers and offsets" in output
+    assert "[FAIL] redrawn sample SHA-256 (LF-normalized)" in output
+
+
+def test_missing_canonical_hash_fails_clearly(exported_labels, capsys):
+    import runpy
+
+    out, path, _, _ = exported_labels
+    meta_path = out.with_suffix(".meta.json")
+    meta = json.loads(meta_path.read_bytes())
+    del meta["sample_sha256_lf"]
+    write_json(meta_path, meta)
+    with pytest.raises(SystemExit, match="labels metadata missing sample_sha256_lf"):
+        tally.make_labels_report(out)
+    wrapper = runpy.run_path(str(SCRIPT_DIR.parents[1] / "reproducibility/run_08_speaker_check.py"))
+    assert not wrapper["check_redraw"](path, out)
+    assert "[FAIL] labels metadata missing sample_sha256_lf" in capsys.readouterr().out
 
 
 @pytest.mark.parametrize("available", [False, True])

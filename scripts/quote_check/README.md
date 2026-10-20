@@ -15,7 +15,8 @@ Run `python scripts/quote_check/tally_speaker.py --labels data/quote_check/speak
 to reproduce the tally without corpus access. With no `--sample`, an existing
 default labels file is selected automatically. `--labels-meta` defaults to the
 sibling `speaker_labels.meta.json`. The report records both sample and labels
-SHA-256 hashes; evidence validation is reported from the upstream metadata.
+SHA-256 hashes, including the raw sample hash for provenance and its LF-normalized
+hash for cross-platform checks; evidence validation is reported from the upstream metadata.
 The CSV has exactly these columns, in frozen sample order:
 
 ```text
@@ -27,8 +28,8 @@ and `false` otherwise. A blank human category is unjudged. The first-round colum
 may be entirely empty, which omits its section from the report; partial coverage
 is rejected. Categories, fields, unique ids, offsets and the exact header are validated.
 `python reproducibility/run_08_speaker_check.py` also redraws and checks the sample
-when the corpus, matches and combined-section CSV are available. The redrawn
-sample stays in gitignored `reproducibility/work/quote_check/`.
+when the corpus, matches and combined-section CSV are available. The sample SHA-256
+check uses LF-normalized bytes so it holds on any OS. The redrawn sample stays in gitignored `reproducibility/work/quote_check/`.
 
 ## Private rating workflow
 
@@ -69,7 +70,7 @@ sample stays in gitignored `reproducibility/work/quote_check/`.
    ```
 
    The outputs are `data/quote_check/speaker_labels.csv` and its sibling
-   `speaker_labels.meta.json` (sample hash, fixed seed, per-field sample size,
+   `speaker_labels.meta.json` (raw and LF-normalized sample hashes, fixed seed, per-field sample size,
    context window and ids with unverifiable evidence). `--out` changes the CSV
    path. Existing CSV or metadata files are refused unless `--overwrite` is given.
    The exporter reuses the tally's Sonnet and human loaders and writes only the

@@ -30,6 +30,11 @@ LABEL_COLUMNS = [
 ]
 
 
+def canonical_sha256(raw: bytes) -> str:
+    """Return the sample fingerprint independent of platform line endings."""
+    return hashlib.sha256(raw.replace(b"\r\n", b"\n")).hexdigest()
+
+
 def load_labels(path: Path) -> list[dict]:
     """Read only the public schema, rejecting incomplete or ambiguous labels."""
     with path.open(encoding="utf-8", newline="") as handle:
@@ -70,6 +75,8 @@ def make_labels_report(labels_path: Path, meta_path: Path | None = None,
     sample = load_labels(labels_path)
     meta_path = meta_path or labels_path.with_suffix(".meta.json")
     meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    if "sample_sha256_lf" not in meta:
+        raise SystemExit("labels metadata missing sample_sha256_lf; re-export labels")
     sonnet = {r["id"]: r["sonnet_speaker"] for r in sample}
     human = {r["id"]: r["human_speaker"] for r in sample if r["human_speaker"]}
     auto_ids = {r["id"] for r in sample if r["human_auto"] == "true"}
@@ -77,6 +84,7 @@ def make_labels_report(labels_path: Path, meta_path: Path | None = None,
     first_round = (v1, meta["sonnet_v1_evidence_unverifiable_ids"]) if v1 else None
     provenance = [
         f"Upstream sample SHA-256: `{meta['sample_sha256']}`",
+        f"Upstream sample SHA-256 (LF-normalized): `{meta['sample_sha256_lf']}`",
         f"Labels SHA-256: `{hashlib.sha256(labels_path.read_bytes()).hexdigest()}`",
     ]
     return render_report(sample, sonnet, human, auto_ids, meta["sonnet_evidence_unverifiable_ids"],

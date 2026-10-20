@@ -7,7 +7,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from tally_speaker import CATS_V1, FIELDS, LABEL_COLUMNS, SONNET_V1_DIR, load_human, load_sonnet
+from tally_speaker import CATS_V1, FIELDS, LABEL_COLUMNS, SONNET_V1_DIR, canonical_sha256, load_human, load_sonnet
 from normative_discourse.config.settings import PROJECT_ROOT
 
 
@@ -36,6 +36,7 @@ def export_labels(sample_path: Path, sonnet_dir: Path, sonnet_v1_dir: Path,
         rows.append(row)
     meta = {
         "sample_sha256": hashlib.sha256(raw).hexdigest(),
+        "sample_sha256_lf": canonical_sha256(raw),
         "seed": 20261018,
         "n_per_field": 100,
         "window": 600,

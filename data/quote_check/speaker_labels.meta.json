@@ -1,5 +1,6 @@
 {
   "sample_sha256": "04dfb86902b332a8ca720210b35b2273956a62a800426c6c9e13559c67ebdc22",
+  "sample_sha256_lf": "12f7d86c1e03227a3bc1720300bf75d028ac26d531e31b57c3bc2b5b4060c0a9",
   "seed": 20261018,
   "n_per_field": 100,
   "window": 600,

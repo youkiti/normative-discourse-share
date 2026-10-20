@@ -162,6 +162,7 @@ Step 08 always tallies `data/quote_check/speaker_labels.csv`. When the clean cor
 `matches.parquet` and combined CSV exist, it redraws the sample from the access-controlled
 corpus into `reproducibility/work/quote_check/sample.json` and checks every identifier,
 marker, offset and the sample SHA-256 against the shipped labels and metadata.
+The sample SHA-256 check uses LF-normalized bytes so it holds on any OS.
 Missing corpus inputs skip only the redraw check; missing labels fail.
 
 JA: 5分類は `participant`（参加者自身の言葉）、`participant_summary`（著者による参加者の
@@ -170,6 +171,7 @@ JA: 5分類は `participant`（参加者自身の言葉）、`participant_summar
 結合節論文を除き、各分野100件をシード20261018で抽出し、前後各600文字を参照します。
 ステップ08は公開ラベルを常に集計し、コーパス・検出結果・結合節 CSV があればアクセス制限付き
 コーパスから作業用標本を再抽出し、識別子・マーカー・オフセットと SHA-256 を照合します。
+標本の SHA-256 は LF に正規化したバイト列から計算するため、どの OS でも照合できます。
 コーパス入力の欠落時は再抽出のみスキップし、ラベル欠落時は失敗します。
 
 EN: Claude Sonnet subagents in Claude Code produced draft ratings by reading
