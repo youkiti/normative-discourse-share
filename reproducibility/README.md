@@ -1,9 +1,9 @@
 # Reproducibility package / 再現パッケージ
 
-Reproduces **Table 1, Table 2, and Table 3** of `manuscripts/methods_results.md`
+Reproduces **Table 1-3 plus the sensitivity analyses and the speaker check** of `manuscripts/methods_results.md`
 (deontic markers in medical-education vs. general-medicine research articles).
 
-`manuscripts/methods_results.md` の **Table 1・Table 2・Table 3** を再現するための
+`manuscripts/methods_results.md` の **Table 1・Table 2・Table 3、感度分析、話者判定**を再現するための
 手順とスクリプトです。
 
 ---
@@ -97,7 +97,7 @@ python reproducibility/run_00_check_inputs.py
 ### All at once / 一括
 
 ```bash
-python reproducibility/run_all.py                       # steps 00→04, 06, verify
+python reproducibility/run_all.py                       # steps 00→04, 06→08, verify
 python reproducibility/run_all.py --with-frequency      # also the optional G-test (05)
 python reproducibility/run_all.py --force-detect        # if detection outputs already exist
 ```
@@ -113,6 +113,8 @@ python reproducibility/run_all.py --force-detect        # if detection outputs a
 | 04   | `run_04_meta_analysis.py`    | `results/output_meta/**` (**Table 2 & 3**)        | `scripts/meta_analysis_deontic.R`                                                      |
 | 05   | `run_05_frequency_suite.py`  | `results/output/**` (secondary G-test)                  | `src/normative_discourse/stats/frequency_analysis.py`                                  |
 | 06   | `run_06_table1.py`           | `reproducibility/work/table1_*.csv` (**Table 1**) | the script itself                                                                        |
+| 07 | `run_07_sensitivity.py` | `results/output_sensitivity/**` | `scripts/list_combined_results_articles.py`, `scripts/sensitivity_deontic.R` |
+| 08 | `run_08_speaker_check.py` | `results/quote_check/summary.md`, local sample check | `scripts/quote_check/tally_speaker.py`, `scripts/quote_check/sample_results_markers.py` |
 | —   | `verify_numbers.py`          | pass/fail vs. manuscript                                  | the script itself                                                                        |
 
 ```bash
@@ -121,6 +123,8 @@ python reproducibility/run_02_strip_references.py
 python reproducibility/run_03_detect_deontic.py        # --force to overwrite existing outputs
 python reproducibility/run_04_meta_analysis.py
 python reproducibility/run_06_table1.py
+python reproducibility/run_07_sensitivity.py
+python reproducibility/run_08_speaker_check.py
 python reproducibility/run_05_frequency_suite.py        # optional
 python reproducibility/verify_numbers.py
 ```
@@ -133,6 +137,67 @@ python reproducibility/verify_numbers.py
 > 既存出力があると停止します。`--force` で削除して再生成してください。
 
 ---
+
+### Sensitivity analyses / 感度分析
+
+EN: Step 07 lists the 14 articles whose Results also contain Discussion text and
+refits the primary and Results models after excluding them (10,729 articles).
+It also leaves out each of the ten journals in turn. Outputs are under
+`results/output_sensitivity/`, including `combined_results_articles.csv`,
+`excl_combined/<unit>/meta_results.csv` and `lojo_all.csv`.
+
+JA: ステップ07は Results に Discussion が含まれる14論文を列挙し、除外後の10,729論文で
+全文・Results のモデルを再推定します。10誌を1誌ずつ除く解析も行います。
+出力は `results/output_sensitivity/` 内の上記 CSV です。
+
+### Speaker check / 話者判定
+
+EN: The five categories are `participant` (participants' own words),
+`participant_summary` (authors paraphrasing participants' views), `author`
+(authors' reporting or interpretation), `other_source` (another document or source),
+and `unclear` (insufficient context). Participant voice combines the first two.
+The frozen sample contains 100 Results markers per field, excludes combined-section
+articles, and uses seed 20261018 with a 600-character window on each side.
+Step 08 always tallies `data/quote_check/speaker_labels.csv`. When the clean corpus,
+`matches.parquet` and combined CSV exist, it redraws the sample from the access-controlled
+corpus into `reproducibility/work/quote_check/sample.json` and checks every identifier,
+marker, offset and the sample SHA-256 against the shipped labels and metadata.
+Missing corpus inputs skip only the redraw check; missing labels fail.
+
+JA: 5分類は `participant`（参加者自身の言葉）、`participant_summary`（著者による参加者の
+見解の要約）、`author`（著者の報告・解釈）、`other_source`（別の文書・情報源）、
+`unclear`（文脈不足）です。最初の2分類を参加者の声として集計します。
+結合節論文を除き、各分野100件をシード20261018で抽出し、前後各600文字を参照します。
+ステップ08は公開ラベルを常に集計し、コーパス・検出結果・結合節 CSV があればアクセス制限付き
+コーパスから作業用標本を再抽出し、識別子・マーカー・オフセットと SHA-256 を照合します。
+コーパス入力の欠落時は再抽出のみスキップし、ラベル欠落時は失敗します。
+
+EN: Claude Sonnet subagents in Claude Code produced draft ratings by reading
+`scripts/quote_check/prompt_template.md`. This was a separate rating step;
+no script calls a model. The human rater saw Sonnet's drafts before making final
+judgements, so agreement is not independent. Markers enclosed in quotation marks
+or digit-free square brackets were mechanically classified `participant` using
+`auto_quoted.py` (30 records, identified by `human_auto`).
+
+JA: Claude Code の Claude Sonnet サブエージェントが `prompt_template.md` を読み、
+別工程として判定案を作成しました。スクリプトからモデルは呼びません。
+人手判定者は案を見て最終判断したため、一致度は独立した判定間の指標ではありません。
+引用符または数字を含まない角括弧内のマーカーは `auto_quoted.py` により機械的に
+`participant` と分類しました（30件、`human_auto` に記録）。
+
+EN: Copyright: article passages, Sonnet evidence spans and reasons, and the review
+page are not distributed. The labels carry identifiers, journal and field, marker
+expressions, offsets and categories only (plus the mechanical-classification flag).
+Anyone with corpus access can regenerate the passages with the sampler. Private
+rating intermediates belong under gitignored `data/processed/quote_check/`;
+the redraw stays under gitignored `reproducibility/work/`. To export labels from
+private ratings, use `scripts/quote_check/export_labels.py`; see its README.
+
+JA: 著作権保護のため、論文の文章、Sonnet の根拠引用・理由、レビュー画面は配布しません。
+ラベルは識別子、雑誌・分野、マーカー表現、オフセット、分類と機械判定フラグだけを含みます。
+コーパスへのアクセス権があれば sampler で文章を再生成できます。非公開の判定用中間物は
+gitignored の `data/processed/quote_check/`、再抽出標本は `reproducibility/work/` に保存します。
+非公開判定からのラベル出力は `export_labels.py` とその README を参照してください。
 
 ### Reference screening / 参照用スクリーニング
 
@@ -191,7 +256,7 @@ python reproducibility/verify_numbers.py
 
 Reads the parquet/CSV outputs **directly** (not the console display, which can
 break on Windows Unicode) and checks them against the manuscript. Exits non-zero
-on any mismatch. Expected (all currently PASS, 33/33):
+on any mismatch. Expected values:
 
 - **Table 1**: N = 10,743 (`~is_non_imrad`); ME 3,743 / GM 7,000; period
   5,206 / 5,537; per-journal counts; section presence (Intro/Methods/Results
@@ -201,6 +266,12 @@ on any mismatch. Expected (all currently PASS, 33/33):
   48,940 markers (ME 28,553 / GM 20,387).
 - **Table 3** (per-section subgroups): Abstract 4.19, Introduction 2.79,
   Methods 1.23, Results 16.97, Discussion 2.05.
+- **Sensitivity**: 14 combined articles; exclusion N=10,729, primary RR 2.74,
+  Results RR 16.94; ten omitted journals per unit, LOJO ranges 2.43-2.94 and 14.53-20.29.
+- **Speaker check**: 200 labels, participant voice ME 79/100 and GM 13/100;
+  raw agreement 183/200, five-category kappa 0.8675, 30 mechanical classifications.
+
+Synthetic unit tests / 合成データのテスト: `PYTHONPATH=src python -m pytest tests -q` (optional `pytest`).
 
 > **Important mapping.** Table 3's **"Discussion" column = `sg_discussion_conclusion`**
 > (Discussion **and** Conclusion combined), so articles whose closing section is

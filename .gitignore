@@ -15,6 +15,7 @@ venv/
 /data/interim/
 /data/raw/
 /data/processed/*.parquet
+/data/processed/quote_check/
 /data/processed/screening_results.csv
 /data/processed/screening_*review*.tsv
 /data/.browser_downloads/

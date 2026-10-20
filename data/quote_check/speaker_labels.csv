@@ -1,0 +1,201 @@
+id,pmid,journal,journal_field,expression,expression_group,start_char,end_char,sonnet_v1_speaker,sonnet_speaker,human_speaker,human_auto
+q000,27863809,Lancet,general_medicine,not required to,required_to,6181,6196,author,author,author,false
+q001,39137257,Acad Med,medical_education,should,should,137,143,author,participant_summary,participant_summary,false
+q002,39661474,Med Teach,medical_education,have to,have_to,4933,4940,participant,participant,participant,false
+q003,28379088,Med Teach,medical_education,need to,need_to,19760,19768,author,participant_summary,author,false
+q004,39602211,JMIR Med Educ,medical_education,need to,need_to,11648,11655,author,participant_summary,participant_summary,false
+q005,27139059,JAMA,general_medicine,should not,should,2272,2282,other_source,other_source,author,false
+q006,28622057,Med Teach,medical_education,should,should,507,513,other_source,other_source,author,false
+q007,36546860,Acad Med,medical_education,should,should,8657,8663,author,participant_summary,author,false
+q008,40926741,Med Educ,medical_education,had to,have_to,3842,3848,participant,participant,participant,false
+q009,41045938,Lancet,general_medicine,should,should,6629,6635,author,author,author,false
+q010,39105273,Med Educ,medical_education,need to,need_to,16375,16382,participant,participant,author,false
+q011,30209058,BMJ,general_medicine,should,should,4175,4181,author,author,author,false
+q012,36240838,Lancet,general_medicine,had to,have_to,3069,3075,author,author,author,false
+q013,28379081,Med Teach,medical_education,should,should,14258,14264,author,participant_summary,participant_summary,false
+q014,31184740,JAMA,general_medicine,had to,have_to,2964,2970,author,author,author,false
+q015,34767321,N Engl J Med,general_medicine,need to,need_to,3718,3725,author,author,author,false
+q016,29109079,BMJ,general_medicine,should,should,5700,5706,author,participant_summary,participant_summary,false
+q017,28738423,Ann Intern Med,general_medicine,need to,need_to,3358,3365,author,author,author,false
+q018,29486040,JAMA,general_medicine,have to,have_to,6110,6117,author,author,author,false
+q019,40821865,Perspect Med Educ,medical_education,have to,have_to,6776,6783,participant,participant,participant,false
+q020,35703191,Acad Med,medical_education,should,should,11222,11228,author,participant_summary,participant_summary,false
+q021,28723333,N Engl J Med,general_medicine,need to,need_to,4481,4488,author,author,author,false
+q022,31284305,Ann Intern Med,general_medicine,should not,should,5139,5149,other_source,other_source,other_source,false
+q023,28285565,Med Teach,medical_education,should,should,8502,8508,participant,participant,participant,false
+q024,40571561,Med Educ,medical_education,required to,required_to,26791,26802,author,participant_summary,participant_summary,false
+q025,32479169,Ann Intern Med,general_medicine,has to,have_to,1275,1281,participant,participant,participant,false
+q026,41259250,Med Teach,medical_education,had to,have_to,6862,6868,author,author,author,false
+q027,39042427,Acad Med,medical_education,need to,need_to,9428,9436,participant,participant,participant,false
+q028,36460437,Med Educ,medical_education,had to,have_to,8249,8255,author,participant_summary,participant_summary,false
+q029,39772996,Med Teach,medical_education,must,must,3072,3076,author,participant_summary,author,false
+q030,37952131,N Engl J Med,general_medicine,should not,should,2782,2792,author,author,author,false
+q031,38296328,BMJ,general_medicine,should,should,2246,2252,author,other_source,author,false
+q032,29800062,Ann Intern Med,general_medicine,have to,have_to,9077,9084,participant,participant,participant,true
+q033,40718372,Perspect Med Educ,medical_education,need to,need_to,6492,6499,author,participant_summary,participant_summary,false
+q034,28620982,Med Educ,medical_education,must,must,5665,5669,author,author,author,false
+q035,35182472,Lancet,general_medicine,need to,need_to,3106,3113,author,author,author,false
+q036,37067959,Acad Med,medical_education,should,should,3095,3101,author,participant_summary,participant_summary,false
+q037,34709202,Acad Med,medical_education,required to,required_to,10129,10140,author,other_source,author,false
+q038,35649701,Med Teach,medical_education,should,should,2472,2478,author,participant_summary,participant_summary,false
+q039,30181258,BMJ,general_medicine,need to,need_to,6953,6960,author,author,author,false
+q040,26703889,Lancet,general_medicine,should,should,4414,4420,author,author,author,false
+q041,41232551,Lancet,general_medicine,should,should,3651,3657,author,author,author,false
+q042,28830280,Med Teach,medical_education,have to,have_to,10176,10183,participant,participant,participant,true
+q043,27410922,N Engl J Med,general_medicine,should,should,1306,1312,author,author,author,false
+q044,33539615,Med Educ,medical_education,should,should,7209,7215,author,participant_summary,participant_summary,false
+q045,29260224,JAMA,general_medicine,have to,have_to,1827,1834,author,author,author,false
+q046,40009823,Acad Med,medical_education,had to,have_to,4558,4564,participant,participant,participant,true
+q047,34372748,Med Teach,medical_education,had to,have_to,4693,4699,author,participant_summary,participant_summary,false
+q048,28418117,Med Educ,medical_education,should,should,18381,18387,other_source,other_source,author,false
+q049,27959607,N Engl J Med,general_medicine,should,should,9864,9870,author,author,author,false
+q050,27119326,Acad Med,medical_education,need to,need_to,864,872,other_source,other_source,participant,true
+q051,36889332,Lancet,general_medicine,must,must,1051,1055,author,author,author,false
+q052,32330224,Ann Intern Med,general_medicine,should,should,6051,6057,author,other_source,author,false
+q053,31348060,Acad Med,medical_education,need to,need_to,6814,6822,participant,participant,participant_summary,false
+q054,40010803,BMJ,general_medicine,need to,need_to,3238,3245,author,author,author,false
+q055,28103722,Med Teach,medical_education,need to,need_to,8564,8571,participant,participant,participant,true
+q056,27628722,Med Educ,medical_education,required to,required_to,4938,4949,author,participant_summary,participant_summary,false
+q057,34618650,Med Teach,medical_education,had to,have_to,5225,5231,participant,participant,participant,false
+q058,36215712,Ann Intern Med,general_medicine,had to,have_to,3055,3061,author,author,author,false
+q059,26896021,Med Educ,medical_education,must,must,4885,4889,participant,participant,participant,false
+q060,28505632,Ann Intern Med,general_medicine,required to,required_to,2686,2697,author,author,author,false
+q061,40335079,BMJ,general_medicine,had to,have_to,1510,1516,author,author,author,false
+q062,41691661,Acad Med,medical_education,not required to,required_to,2257,2272,author,author,author,false
+q063,30955975,Lancet,general_medicine,should,should,8075,8081,author,author,author,false
+q064,36791160,N Engl J Med,general_medicine,had to,have_to,1028,1034,author,author,author,false
+q065,38071663,Med Teach,medical_education,need to,need_to,7006,7014,participant,participant,participant,true
+q066,29800062,Ann Intern Med,general_medicine,have to,have_to,2972,2979,participant,participant,participant,true
+q067,27239794,Ann Intern Med,general_medicine,not required to,required_to,187,202,author,author,author,false
+q068,38285884,Med Teach,medical_education,should,should,7622,7628,participant,participant,participant,false
+q069,41245766,Perspect Med Educ,medical_education,need to,need_to,376,383,author,participant_summary,participant_summary,false
+q070,29800179,JAMA,general_medicine,should,should,859,865,author,author,author,false
+q071,28763548,JAMA,general_medicine,should not,should,473,483,author,author,author,false
+q072,32079956,Acad Med,medical_education,need to,need_to,3098,3105,author,participant_summary,participant_summary,false
+q073,31060056,Ann Intern Med,general_medicine,should,should,2648,2654,author,participant_summary,participant_summary,false
+q074,30907736,JMIR Med Educ,medical_education,need to,need_to,3740,3747,author,author,author,false
+q075,37331368,Lancet,general_medicine,should,should,4208,4214,author,author,author,false
+q076,39692300,Med Teach,medical_education,should,should,3327,3333,participant,participant,participant,true
+q077,31813633,Lancet,general_medicine,need to,need_to,5910,5917,author,author,author,false
+q078,38219773,Lancet,general_medicine,need to,need_to,588,595,author,author,author,false
+q079,37748180,Ann Intern Med,general_medicine,have to,have_to,3398,3405,author,author,author,false
+q080,30496107,Lancet,general_medicine,need to,need_to,10625,10632,author,author,author,false
+q081,26826071,Acad Med,medical_education,had to,have_to,1346,1352,author,author,author,false
+q082,39878968,JAMA,general_medicine,need to,need_to,7752,7759,author,author,author,false
+q083,39008854,Ann Intern Med,general_medicine,should,should,4388,4394,author,author,author,false
+q084,32170881,Med Educ,medical_education,need to,need_to,20010,20018,participant,participant,participant,true
+q085,36302060,Med Teach,medical_education,had to,have_to,10237,10243,author,participant_summary,participant_summary,false
+q086,32277878,Lancet,general_medicine,should,should,3654,3660,author,author,author,false
+q087,38301620,Med Teach,medical_education,should,should,2482,2488,unclear,participant,participant,false
+q088,33107945,JAMA,general_medicine,required to,required_to,2203,2214,author,author,author,false
+q089,36036522,N Engl J Med,general_medicine,need to,need_to,4436,4443,author,author,author,false
+q090,37983400,Acad Med,medical_education,need to,need_to,8776,8783,author,participant_summary,participant_summary,false
+q091,30597485,Ann Intern Med,general_medicine,need to,need_to,2378,2385,author,author,author,false
+q092,40400281,Med Educ,medical_education,need to,need_to,11756,11764,participant,participant,participant,true
+q093,35599241,Med Educ,medical_education,should,should,6077,6083,author,participant_summary,participant_summary,false
+q094,40279148,JMIR Med Educ,medical_education,should,should,8229,8235,author,participant_summary,participant_summary,false
+q095,32479166,Ann Intern Med,general_medicine,must,must,10199,10203,author,author,author,false
+q096,27571284,Ann Intern Med,general_medicine,have to,have_to,2456,2463,author,author,author,false
+q097,29800062,Ann Intern Med,general_medicine,had to,have_to,6535,6541,participant,participant,participant,true
+q098,30328135,Med Educ,medical_education,must,must,2209,2213,author,participant_summary,participant_summary,false
+q099,32171422,Lancet,general_medicine,had to,have_to,4040,4046,author,author,author,false
+q100,31131661,Med Teach,medical_education,need to,need_to,3588,3595,participant,participant,participant,true
+q101,38989834,JMIR Med Educ,medical_education,should not,should,5824,5834,author,participant_summary,participant_summary,false
+q102,29109079,BMJ,general_medicine,should,should,2210,2216,author,participant_summary,participant_summary,false
+q103,37478883,Lancet,general_medicine,should,should,5318,5324,author,author,author,false
+q104,29704167,Perspect Med Educ,medical_education,should,should,5258,5264,author,author,author,false
+q105,36288727,Med Teach,medical_education,need to,need_to,2812,2819,participant,participant,participant,true
+q106,35098573,Med Educ,medical_education,should,should,5822,5828,participant,participant,participant,true
+q107,30326126,JAMA,general_medicine,should not,should,2579,2589,author,author,author,false
+q108,38630442,Acad Med,medical_education,have to,have_to,15968,15975,participant,participant,participant,false
+q109,31591681,Perspect Med Educ,medical_education,required to,required_to,986,997,author,author,author,false
+q110,35397236,Lancet,general_medicine,should,should,23840,23846,author,author,author,false
+q111,37270764,Med Teach,medical_education,need to,need_to,1105,1113,author,participant_summary,participant_summary,false
+q112,29992693,Med Educ,medical_education,should,should,10843,10849,author,author,author,false
+q113,31852680,BMJ,general_medicine,should,should,1484,1490,other_source,other_source,participant,true
+q114,35397236,Lancet,general_medicine,should,should,15002,15008,author,author,author,false
+q115,41245773,Perspect Med Educ,medical_education,have to,have_to,7113,7120,participant,participant,participant,true
+q116,39866744,Perspect Med Educ,medical_education,has to,have_to,4075,4081,participant,participant,participant,true
+q117,36116481,Lancet,general_medicine,should,should,13763,13769,author,author,author,false
+q118,34905030,JAMA,general_medicine,have to,have_to,2075,2082,author,author,author,false
+q119,27313086,Lancet,general_medicine,should not,should,1397,1407,author,author,author,false
+q120,31813636,Lancet,general_medicine,had to,have_to,2567,2573,author,author,author,false
+q121,39279321,Med Educ,medical_education,need to,need_to,4481,4488,participant,participant,participant,false
+q122,34860625,Med Teach,medical_education,had to,have_to,15147,15153,participant,participant,participant,true
+q123,40578370,Lancet,general_medicine,need to,need_to,11624,11631,author,author,author,false
+q124,28954741,BMJ,general_medicine,had to,have_to,5267,5273,author,author,author,false
+q125,30739689,Lancet,general_medicine,have to,have_to,3454,3461,participant,participant,participant,true
+q126,34781715,Ann Intern Med,general_medicine,need to,need_to,4830,4837,author,author,author,false
+q127,28892811,Ann Intern Med,general_medicine,have to,have_to,4815,4822,author,author,author,false
+q128,40643414,Acad Med,medical_education,have to,have_to,8552,8559,participant,participant,participant,true
+q129,31060056,Ann Intern Med,general_medicine,should,should,2510,2516,author,participant_summary,participant_summary,false
+q130,31488369,Lancet,general_medicine,need to,need_to,4186,4193,author,author,author,false
+q131,29938824,Med Educ,medical_education,need to,need_to,12582,12589,author,participant_summary,participant_summary,false
+q132,41196223,Med Educ,medical_education,need to,need_to,12117,12124,participant,participant,participant,true
+q133,31888884,BMJ,general_medicine,should,should,5690,5696,author,author,author,false
+q134,37966285,N Engl J Med,general_medicine,not required to,required_to,6983,6998,author,author,author,false
+q135,27254013,Acad Med,medical_education,have to,have_to,5554,5561,participant,participant,participant,false
+q136,28402248,N Engl J Med,general_medicine,need to,need_to,4103,4110,author,author,author,false
+q137,27731861,JMIR Med Educ,medical_education,should,should,7234,7240,author,participant_summary,participant_summary,false
+q138,29486040,JAMA,general_medicine,need to,need_to,5494,5501,author,author,author,false
+q139,28024431,Med Teach,medical_education,should,should,12723,12729,participant,participant,participant,false
+q140,38464960,Perspect Med Educ,medical_education,have to,have_to,3621,3628,participant,participant,participant,true
+q141,29968485,Med Teach,medical_education,should,should,1308,1314,author,participant_summary,participant_summary,false
+q142,37597522,Lancet,general_medicine,required to,required_to,2892,2903,author,author,author,false
+q143,28093833,Med Educ,medical_education,have to,have_to,3747,3754,participant,participant,participant,false
+q144,38656887,Acad Med,medical_education,should,should,5608,5614,participant,participant,participant,false
+q145,34928758,Med Teach,medical_education,required to,required_to,5801,5812,participant,participant,participant,false
+q146,26975647,JAMA,general_medicine,should,should,725,731,author,author,author,false
+q147,32692387,JAMA,general_medicine,should,should,5563,5569,author,other_source,other_source,false
+q148,37983394,Acad Med,medical_education,has to,have_to,5678,5684,participant,participant,participant,false
+q149,35000530,Med Teach,medical_education,need to,need_to,6455,6462,participant,participant,participant,true
+q150,28562135,Med Teach,medical_education,should,should,8581,8587,author,participant_summary,participant_summary,false
+q151,37972628,Lancet,general_medicine,must,must,2832,2836,author,author,author,false
+q152,30057104,Lancet,general_medicine,need to,need_to,3918,3925,author,author,author,false
+q153,34807717,Ann Intern Med,general_medicine,required to,required_to,1555,1566,author,author,author,false
+q154,39101833,Med Teach,medical_education,need to,need_to,7027,7034,author,participant_summary,participant_summary,false
+q155,38442198,Acad Med,medical_education,should,should,8732,8738,participant,participant,participant,false
+q156,27898976,JAMA,general_medicine,should,should,7527,7533,author,author,author,false
+q157,34928758,Med Teach,medical_education,need to,need_to,12190,12197,participant,participant,participant,true
+q158,40821866,Perspect Med Educ,medical_education,had to,have_to,7414,7420,author,author,author,false
+q159,39908430,N Engl J Med,general_medicine,required to,required_to,308,319,author,author,author,false
+q160,30021076,N Engl J Med,general_medicine,need to,need_to,1870,1877,author,author,author,false
+q161,30443970,Med Educ,medical_education,should,should,4821,4827,participant,participant,participant,false
+q162,35830270,Acad Med,medical_education,need to,need_to,10175,10182,author,participant_summary,participant_summary,false
+q163,34060124,Med Educ,medical_education,have to,have_to,17215,17222,participant,participant,participant,false
+q164,32956604,Ann Intern Med,general_medicine,required to,required_to,4830,4841,author,author,author,false
+q165,30530519,BMJ,general_medicine,had to,have_to,2034,2040,author,author,author,false
+q166,28973247,JAMA,general_medicine,should not,should,8815,8825,author,author,author,false
+q167,27562895,Med Educ,medical_education,required to,required_to,1348,1359,author,author,author,false
+q168,33010843,Lancet,general_medicine,need to,need_to,795,802,author,other_source,author,false
+q169,38277443,Acad Med,medical_education,should,should,11788,11794,participant,participant,participant,false
+q170,34062092,Med Teach,medical_education,need to,need_to,5175,5182,participant,participant,participant,false
+q171,35703191,Acad Med,medical_education,should,should,11436,11442,participant,participant,participant,true
+q172,36202102,Med Teach,medical_education,had to,have_to,4728,4734,author,participant_summary,participant_summary,false
+q173,36822577,Med Educ,medical_education,need to,need_to,15472,15479,participant,participant,participant,true
+q174,38110233,BMJ,general_medicine,should,should,8192,8198,author,author,author,false
+q175,40701637,BMJ,general_medicine,should,should,2791,2797,author,author,author,false
+q176,31831471,BMJ,general_medicine,have to,have_to,6827,6834,author,participant_summary,participant_summary,false
+q177,35171118,Acad Med,medical_education,required to,required_to,5206,5217,author,author,author,false
+q178,27273013,Ann Intern Med,general_medicine,required to,required_to,4744,4755,author,author,author,false
+q179,30293771,Lancet,general_medicine,not required to,required_to,3933,3948,author,author,author,false
+q180,29508422,Med Educ,medical_education,should,should,10162,10168,participant,participant,participant,true
+q181,37517448,Med Educ,medical_education,required to,required_to,9712,9723,author,author,author,false
+q182,25693793,Med Teach,medical_education,had to,have_to,3533,3539,author,author,author,false
+q183,38050366,JMIR Med Educ,medical_education,should,should,5354,5360,author,participant_summary,participant_summary,false
+q184,29800179,JAMA,general_medicine,should,should,748,754,author,author,author,false
+q185,28477440,JAMA,general_medicine,need to,need_to,3961,3968,author,author,author,false
+q186,30379665,Acad Med,medical_education,should,should,8741,8747,participant,participant,participant,false
+q187,30620375,JAMA,general_medicine,should not,should,10536,10546,other_source,other_source,participant,true
+q188,30632186,Med Educ,medical_education,should,should,5307,5313,author,participant,participant,false
+q189,32291261,BMJ,general_medicine,should,should,5415,5421,other_source,other_source,author,false
+q190,37094349,Ann Intern Med,general_medicine,did not have to,have_to,1404,1419,author,author,author,false
+q191,39137272,Acad Med,medical_education,should not,should,7612,7622,author,participant_summary,participant_summary,false
+q192,36044884,Med Teach,medical_education,should,should,3339,3345,participant,participant,participant,true
+q193,34633836,Ann Intern Med,general_medicine,have to,have_to,1738,1745,author,author,author,false
+q194,35132917,Med Teach,medical_education,need to,need_to,5038,5045,participant,participant,participant,true
+q195,31893513,N Engl J Med,general_medicine,should,should,3367,3373,author,author,author,false
+q196,28322416,JAMA,general_medicine,have to,have_to,10210,10217,participant,participant,participant,false
+q197,33597169,BMJ,general_medicine,should,should,2383,2389,other_source,other_source,author,false
+q198,27731848,JMIR Med Educ,medical_education,need to,need_to,5839,5847,author,author,author,false
+q199,41284548,Lancet,general_medicine,must,must,13437,13441,author,author,author,false

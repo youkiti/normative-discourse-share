@@ -1,0 +1,219 @@
+<title>Results の話者判定</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;600&family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: one passage at a time, the marked expression centred in its Results context; five answer keys beneath. */
+:root {
+  --bg: #f5f6f8; --panel: #ffffff; --fg: #1f2329; --muted: #5f6772; --line: #d8dce2;
+  --accent: #3a5a8c; --mark: #fde9a6; --p: #7a3e9d; --a: #2f6f5e; --o: #9a5b1e; --u: #6b6f76;
+  --f-ui: "IBM Plex Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+  --f-read: "IBM Plex Serif", Georgia, serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #15181c; --panel: #1d2127; --fg: #e4e7eb; --muted: #9aa3ad; --line: #30353d;
+  --accent: #8fb0e6; --mark: #5a4a12; --p: #c99ae6; --a: #7cc4ad; --o: #e3a96b; --u: #a9aeb5; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #15181c; --panel: #1d2127; --fg: #e4e7eb; --muted: #9aa3ad; --line: #30353d;
+  --accent: #8fb0e6; --mark: #5a4a12; --p: #c99ae6; --a: #7cc4ad; --o: #e3a96b; --u: #a9aeb5; color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font-family: var(--f-ui); font-size: 14px; }
+.wrap { padding-block: 16px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); max-width: 880px; margin: 0 auto; display: grid; gap: 12px; }
+header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px; }
+h1 { font-size: 18px; margin: 0; font-weight: 600; }
+.status { color: var(--muted); font-variant-numeric: tabular-nums; }
+.bar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.bar > i { display: block; height: 100%; width: 0; background: var(--accent); }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 18px 20px; display: grid; gap: 14px; }
+.meta { font-family: var(--f-mono); font-size: 12px; color: var(--muted); display: flex; gap: 12px; flex-wrap: wrap; }
+.passage { font-family: var(--f-read); font-size: 15.5px; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
+.passage mark { background: var(--mark); color: inherit; padding: 0 2px; border-radius: 2px; font-weight: 600; }
+.keys { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; }
+.keys button { font: inherit; text-align: left; padding: 10px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--fg); cursor: pointer; display: grid; gap: 2px; }
+.keys button b { font-weight: 600; }
+.keys button small { color: var(--muted); }
+.keys button[aria-pressed="true"] { border-width: 2px; }
+.keys button.draft { border-style: dashed; border-width: 2px; border-color: var(--accent); }
+.ai { border-left: 3px solid var(--accent); padding: 6px 12px; display: grid; gap: 4px; }
+.ai .lab { font-size: 11px; letter-spacing: .06em; color: var(--muted); }
+.passage .ev { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.keys button.k1[aria-pressed="true"] { border-color: var(--p); color: var(--p); }
+.keys button.k2[aria-pressed="true"] { border-color: var(--a); color: var(--a); }
+.keys button.k3[aria-pressed="true"] { border-color: var(--o); color: var(--o); }
+.keys button.k4[aria-pressed="true"] { border-color: var(--o); color: var(--o); }
+.keys button.k5[aria-pressed="true"] { border-color: var(--u); color: var(--u); }
+.keys button.k2[aria-pressed="true"] { border-color: var(--p); color: var(--p); border-style: double; border-width: 3px; }
+.keys button.k3[aria-pressed="true"] { border-color: var(--a); color: var(--a); }
+kbd { font-family: var(--f-mono); font-size: 11px; border: 1px solid var(--line); border-radius: 3px; padding: 0 4px; color: var(--muted); }
+textarea { font: inherit; width: 100%; box-sizing: border-box; min-height: 44px; background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 4px; padding: 6px 8px; }
+.nav { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.nav button { font: inherit; padding: 6px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); color: var(--fg); cursor: pointer; }
+.save { color: var(--muted); font-size: 12px; }
+.filter { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); cursor: pointer; }
+.filter input { accent-color: var(--accent); }
+.help { color: var(--muted); font-size: 12px; line-height: 1.6; }
+button:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Results の話者判定</h1>
+    <span class="status" id="status">読み込み中…</span>
+  </header>
+  <div class="bar" aria-hidden="true"><i id="fill"></i></div>
+  <article class="card" id="card"></article>
+  <div class="nav">
+    <button id="prev">← 前</button>
+    <button id="next">次 →</button>
+    <button id="todo">次の未判定へ</button>
+    <label class="filter" for="only-todo"><input type="checkbox" id="only-todo"> 未判定のみ</label>
+    <span class="save" id="save"></span>
+  </div>
+  <p class="help">印の付いた表現が、誰の言葉かを選んでください。<kbd>1</kbd> 参加者の発言（面接・フォーカスグループ・自由記述など、参加者自身の言葉として示されたもの）　<kbd>2</kbd> 参加者の意見の要約（「参加者は〜の必要性を強調した」のように、参加者の意見を著者の言葉でまとめたもの）　<kbd>3</kbd> 著者の記述（測定・解析の結果、プロトコル上の要件の説明、著者自身の解釈）　<kbd>4</kbd> 他の文書の引用（質問紙の項目、ガイドライン・方針・カリキュラムの文言、他の文献）　<kbd>5</kbd> 判別不能。選ぶと保存して次へ進みます。点線の枠が Sonnet の下書きで、<kbd>Enter</kbd> でそのまま確定します。本文の下線は Sonnet が根拠に挙げた箇所です。<kbd>←</kbd>/<kbd>→</kbd> で移動（「未判定のみ」をオンにすると判定済みを飛ばします）、<kbd>N</kbd> でメモ欄（<kbd>Esc</kbd> で戻る）。雑誌名は表示していません。</p>
+</div>
+
+<script id="records" type="application/json">__RECORDS__</script>
+<script>
+const RECORDS = JSON.parse(document.getElementById("records").textContent);
+const KEYS = [["participant", "参加者の発言"], ["participant_summary", "参加者の意見の要約"], ["author", "著者の記述"], ["other_source", "他の文書の引用"], ["unclear", "判別不能"]];
+let answers = {};
+let cur = 0;
+let db = null;
+
+function esc(s) { const d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
+// Marker gets <mark>; Sonnet's evidence span gets an underline when it lies outside the marker.
+function passage(r) {
+  const full = r.before + r.marker + r.after;
+  const ms = r.before.length, me = ms + r.marker.length;
+  const ev = r.sonnet.evidence || "";
+  let es = ev ? full.indexOf(ev) : -1, ee = es >= 0 ? es + ev.length : -1;
+  const cuts = [0, ms, me, full.length];
+  if (es >= 0) cuts.push(es, ee);
+  const pts = [...new Set(cuts)].sort((x, y) => x - y);
+  let html = "";
+  for (let i = 0; i < pts.length - 1; i++) {
+    const a = pts[i], b = pts[i + 1];
+    let seg = esc(full.slice(a, b));
+    if (es >= 0 && a >= es && b <= ee) seg = `<span class="ev">${seg}</span>`;
+    if (a >= ms && b <= me) seg = `<mark>${seg}</mark>`;
+    html += seg;
+  }
+  return html;
+}
+function render() {
+  const done = RECORDS.filter(r => answers[r.id]?.speaker).length;
+  document.getElementById("status").textContent = `${done} / ${RECORDS.length} 件判定済み` + (db ? "" : "（保存先に接続していません）");
+  document.getElementById("fill").style.width = (100 * done / RECORDS.length) + "%";
+  const r = RECORDS[cur];
+  const a = answers[r.id] || {};
+  const card = document.getElementById("card");
+  const s = r.sonnet;
+  const label = Object.fromEntries(KEYS);
+  card.innerHTML = `
+    <div class="meta"><span>${esc(r.id)}</span><span>${cur + 1} / ${RECORDS.length}</span></div>
+    <div class="ai"><span class="lab">SONNET の下書き</span>
+      <span><b>${label[s.speaker]}</b>　${esc(s.reason)}</span></div>
+    <div class="passage">…${passage(r)}…</div>
+    <div class="keys">${KEYS.map(([k, lab], i) => `<button class="k${i + 1}${s.speaker === k && !a.speaker ? " draft" : ""}" data-k="${k}" aria-pressed="${a.speaker === k}"><b>${lab}</b><small>キー ${i + 1}${s.speaker === k ? "・Sonnet の判定（Enter で確定）" : ""}</small></button>`).join("")}</div>
+    <label class="help" for="note-${esc(r.id)}">メモ（任意）</label>
+    <textarea id="note-${esc(r.id)}">${esc(a.note || "")}</textarea>`;
+  card.querySelectorAll(".keys button").forEach(b => b.addEventListener("click", () => choose(b.dataset.k)));
+  const ta = card.querySelector("textarea");
+  ta.addEventListener("change", () => saveNote(r, ta.value));
+}
+async function write(r, body) {
+  const el = document.getElementById("save");
+  if (!db) { el.textContent = "保存先に接続していません"; return false; }
+  try {
+    el.textContent = "保存中…";
+    await db.collection("speaker").doc(r.id).set(body);
+    el.textContent = "保存しました";
+    return true;
+  } catch (e) {
+    el.textContent = e && e.code === "invalid_argument" ? "この表示では保存できません" : "保存に失敗しました。もう一度選んでください";
+    return false;
+  }
+}
+// One write at a time: a second key press or a move while a save is pending is ignored,
+// and the cursor advances only from the record that was saved.
+let saving = false;
+async function choose(k) {
+  if (saving) return;
+  saving = true;
+  const idx = cur;
+  const r = RECORDS[idx];
+  const prev = answers[r.id];
+  const note = document.querySelector("textarea")?.value ?? prev?.note ?? "";
+  const body = { speaker: k, note, sonnet_speaker: r.sonnet.speaker, updated_at: new Date().toISOString() };
+  answers[r.id] = body;
+  render();
+  const ok = await write(r, body);
+  saving = false;
+  if (!ok) {
+    if (prev) answers[r.id] = prev; else delete answers[r.id];
+    render();
+    return;
+  }
+  if (cur !== idx) return;
+  if (onlyTodo) { nextTodo(); return; }
+  if (cur < RECORDS.length - 1) { cur++; render(); }
+}
+async function saveNote(r, note) {
+  const prev = answers[r.id];
+  if ((prev?.note || "") === note) return;
+  const body = { speaker: prev?.speaker || "", note, sonnet_speaker: r.sonnet.speaker, updated_at: new Date().toISOString() };
+  answers[r.id] = body;
+  if (!(await write(r, body))) {
+    if (prev) answers[r.id] = prev; else delete answers[r.id];
+  }
+}
+const isTodo = r => !answers[r.id]?.speaker;
+function nextTodo() {
+  for (let i = 1; i <= RECORDS.length; i++) {
+    const j = (cur + i) % RECORDS.length;
+    if (isTodo(RECORDS[j])) { cur = j; render(); return; }
+  }
+  render();
+  document.getElementById("save").textContent = "未判定の記録はありません";
+}
+// With "unjudged only" on, previous/next skip records that already have an answer.
+let onlyTodo = false;
+try { onlyTodo = localStorage.getItem("speaker-only-todo") === "1"; } catch (e) { onlyTodo = false; }
+function step(dir) {
+  for (let j = cur + dir; j >= 0 && j < RECORDS.length; j += dir) {
+    if (!onlyTodo || isTodo(RECORDS[j])) { cur = j; render(); return; }
+  }
+}
+const box = document.getElementById("only-todo");
+box.checked = onlyTodo;
+box.addEventListener("change", () => {
+  onlyTodo = box.checked;
+  try { localStorage.setItem("speaker-only-todo", onlyTodo ? "1" : "0"); } catch (e) { /* per-viewer convenience only */ }
+  if (onlyTodo && !isTodo(RECORDS[cur])) nextTodo(); else render();
+  box.blur();
+});
+document.getElementById("prev").onclick = () => step(-1);
+document.getElementById("next").onclick = () => step(1);
+document.getElementById("todo").onclick = nextTodo;
+document.addEventListener("keydown", e => {
+  if (e.target.tagName === "TEXTAREA") { if (e.key === "Escape") e.target.blur(); return; }
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (["1", "2", "3", "4", "5"].includes(e.key)) { e.preventDefault(); choose(KEYS[Number(e.key) - 1][0]); }
+  else if (e.key === "Enter") { e.preventDefault(); choose(RECORDS[cur].sonnet.speaker); }
+  else if (e.key === "ArrowRight") { e.preventDefault(); step(1); }
+  else if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
+  else if (e.key.toLowerCase() === "n") { e.preventDefault(); document.querySelector("textarea")?.focus(); }
+});
+render();
+(async () => {
+  try { db = await window.claude?.use?.("db"); } catch (e) { db = null; }
+  if (!db) { render(); return; }
+  db.collection("speaker").onSnapshot(snap => {
+    const next = {};
+    snap.docs.forEach(d => { next[d.id] = d.data(); });
+    answers = next;
+    if (document.activeElement?.tagName === "TEXTAREA") return;
+    if (onlyTodo && !saving && !isTodo(RECORDS[cur])) { nextTodo(); return; }
+    render();
+  }, () => render());
+})();
+</script>

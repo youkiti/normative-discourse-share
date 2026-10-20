@@ -1,0 +1,8 @@
+{
+  "sample_sha256": "04dfb86902b332a8ca720210b35b2273956a62a800426c6c9e13559c67ebdc22",
+  "seed": 20261018,
+  "n_per_field": 100,
+  "window": 600,
+  "sonnet_evidence_unverifiable_ids": [],
+  "sonnet_v1_evidence_unverifiable_ids": []
+}
