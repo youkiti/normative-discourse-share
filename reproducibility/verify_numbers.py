@@ -13,13 +13,14 @@ from __future__ import annotations
 
 import csv
 import sys
+from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import polars as pl  # noqa: E402
 
-from _env import CLEAN_PARQUET, META_OUT_DIR  # noqa: E402
+from _env import CLEAN_PARQUET, COMBINED_CSV, META_OUT_DIR, SENS_OUT_DIR, SPEAKER_LABELS  # noqa: E402
 
 REL_TOL = 0.01  # 1% relative tolerance for rate ratios (manuscript rounds to 2 dp)
 
@@ -113,10 +114,63 @@ def verify_table3() -> None:
         check_rr(f"Table3 all-groups {label}", rr, exp)
 
 
+def _read_rows(path: Path) -> list[dict]:
+    if not path.exists():
+        results.append((False, f"missing {path}"))
+        return []
+    with path.open(encoding="utf-8", newline="") as handle:
+        return list(csv.DictReader(handle))
+
+
+def verify_sensitivity() -> None:
+    combined = _read_rows(COMBINED_CSV)
+    check_int("Sensitivity combined articles", len(combined), 14)
+    lojo = _read_rows(SENS_OUT_DIR / "lojo_all.csv")
+    for unit, rr, lo, hi in (("primary_abstract_body", 2.74, 2.43, 2.94),
+                             ("sg_results", 16.94, 14.53, 20.29)):
+        rows = _read_rows(SENS_OUT_DIR / "excl_combined" / unit / "meta_results.csv")
+        all_row = next((r for r in rows if r["expression_group"] == "all"), None)
+        n = int(float(all_row["n_studies"])) if all_row else None
+        check_int(f"Sensitivity {unit} n_studies", n, 10729)
+        check_rr(f"Sensitivity {unit} RR", float(all_row["rate_ratio"]) if all_row else None, rr)
+        omitted = [r for r in lojo if r["unit"] == unit and r["omitted_journal"] != "(none)"]
+        check_int(f"LOJO {unit} omitted rows", len(omitted), 10)
+        check_int(f"LOJO {unit} omitted journals", len({r["omitted_journal"] for r in omitted}), 10)
+        ratios = [float(r["rate_ratio"]) for r in omitted]
+        check_rr(f"LOJO {unit} min RR", min(ratios) if ratios else None, lo)
+        check_rr(f"LOJO {unit} max RR", max(ratios) if ratios else None, hi)
+
+
+def verify_speaker() -> None:
+    rows = _read_rows(SPEAKER_LABELS)
+    check_int("Speaker markers", len(rows), 200)
+    voice = {"participant", "participant_summary"}
+    for field, expected in (("medical_education", 79), ("general_medicine", 13)):
+        selected = [r for r in rows if r["journal_field"] == field]
+        check_int(f"Speaker sample {field}", len(selected), 100)
+        check_int(f"Speaker participant voice {field}",
+                  sum(r["human_speaker"] in voice for r in selected), expected)
+    paired = [r for r in rows if r["human_speaker"]]
+    agree = sum(r["sonnet_speaker"] == r["human_speaker"] for r in paired)
+    check_int("Speaker raw agreement", agree, 183)
+    categories = ["participant", "participant_summary", "author", "other_source", "unclear"]
+    sonnet = Counter(r["sonnet_speaker"] for r in paired)
+    human = Counter(r["human_speaker"] for r in paired)
+    n = len(paired)
+    expected = sum(sonnet[c] * human[c] for c in categories) / (n * n) if n else 1
+    kappa = (agree / n - expected) / (1 - expected) if n and expected != 1 else None
+    valid = all(r["sonnet_speaker"] in categories and r["human_speaker"] in categories for r in rows)
+    results.append((valid and kappa is not None and abs(kappa - 0.8675) <= 0.005,
+                    f"Speaker Cohen's kappa: got {kappa}, expected ~0.8675 (absolute tolerance 0.005)"))
+    check_int("Speaker human_auto", sum(r["human_auto"] == "true" for r in rows), 30)
+
+
 def main() -> int:
     verify_table1()
     verify_table2()
     verify_table3()
+    verify_sensitivity()
+    verify_speaker()
 
     n_pass = sum(1 for ok, _ in results if ok)
     print(f"\n{'=' * 60}")

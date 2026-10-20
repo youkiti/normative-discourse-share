@@ -43,6 +43,9 @@ CLEAN_PARQUET = REPO_ROOT / "data" / "processed" / "articles_corpus_10yr_clean.p
 INVENTORY_PARQUET = REPO_ROOT / "data" / "processed" / "section_inventory.parquet"
 MATCHES_PARQUET = REPO_ROOT / "data" / "processed" / "matches.parquet"
 META_OUT_DIR = REPO_ROOT / "results" / "output_meta"
+SENS_OUT_DIR = REPO_ROOT / "results" / "output_sensitivity"
+COMBINED_CSV = SENS_OUT_DIR / "combined_results_articles.csv"
+SPEAKER_LABELS = REPO_ROOT / "data" / "quote_check" / "speaker_labels.csv"
 
 # build-corpus globs screening_*review*.tsv and reads ALL matches; only these two
 # are expected. Any extra file would silently change the screening filter.

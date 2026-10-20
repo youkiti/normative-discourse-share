@@ -7,7 +7,7 @@ medical-education vs. general-medicine research articles.
 医学教育誌と一般医学誌の原著における**義務表現（deontic markers）**頻度比較研究の
 **再現パッケージ**（公開版）です。
 
-This repository regenerates **Table 1, Table 2, and Table 3** of the manuscript
+This repository regenerates **Table 1-3 plus the sensitivity analyses and the speaker check** of the manuscript
 from an access-controlled, already text-extracted corpus. It is a *self-contained subset*
 of the full research repository: the code on the
 text → corpus → detection → statistics path is included, together with the
@@ -41,9 +41,16 @@ python reproducibility/verify_numbers.py
 
 | Path | Contents |
 | --- | --- |
-| `reproducibility/` | Runnable, documented wrappers (`run_00`…`run_06`, `run_all`, `verify_numbers`) + the reproduction README |
+| `reproducibility/` | Runnable, documented wrappers (`run_00`…`run_08`, `run_all`, `verify_numbers`) + the reproduction README |
 | `src/normative_discourse/` | The analysis package — **reproduction subset only**: corpus builder, section parser, deontic detector, frequency analysis |
 | `scripts/meta_analysis_deontic.R` | Poisson-lognormal random-effects meta-analysis (Table 2 & 3) |
+| `scripts/meta_pln_lib.R` | Shared Poisson-lognormal model functions |
+| `scripts/sensitivity_deontic.R` | Combined-section exclusion and leave-one-journal-out analyses |
+| `scripts/list_combined_results_articles.py` | Inventory of combined Results articles |
+| `scripts/quote_check/` | Speaker sampling, private review tools, public-label export and tally |
+| `data/quote_check/speaker_labels.csv`, `speaker_labels.meta.json` | Public speaker labels and sample provenance |
+| `results/output_sensitivity/`, `results/quote_check/` | Locally regenerated sensitivity and speaker reports |
+| `tests/` | Synthetic tests without article passages |
 | `scripts/strip_discussion_references.py` | Reference-stripping pass that produces the frozen corpus |
 | `config/` | `section_overrides.toml` (per-article section fixes), `default_settings.toml` |
 | `data/processed/med_teach_article_types.csv` | Article-type lookup (ships with the repo) |
@@ -90,6 +97,10 @@ of its decisions reviewed manually. The main reproduction path uses the frozen
 screening decisions and human-review corrections.
 Reference code is in `src/normative_discourse/data_io/abstract_screener.py`
 (prompt and model ID) and `reproducibility/ref_screen_abstracts.py` (standalone wrapper).
+
+Results speaker drafts were produced by Claude Sonnet subagents in Claude Code,
+using `scripts/quote_check/prompt_template.md`; a human rater saw the drafts and made
+the final judgements, so their agreement is not independent. No speaker-check script calls a model.
 
 ---
 

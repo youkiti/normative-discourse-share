@@ -10,6 +10,9 @@
 # Optional: needed only for ref_screen_abstracts.py; install separately if used.
 # google-genai
 
+# Optional development dependency for synthetic unit tests:
+# pytest
+
 # Corpus build + section segmentation (existing src package)
 pandas>=2.1.0
 polars>=0.20.0

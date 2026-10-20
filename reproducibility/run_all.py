@@ -1,10 +1,12 @@
-"""Run the full reproduction pipeline (steps 00 -> 06), then verify.
+"""Run the full reproduction pipeline (steps 00 -> 08), then verify.
 
 EN: OS-agnostic orchestrator. Each step is the corresponding run_0N script. Stops
     at the first failure. The secondary G-test suite (step 05) is skipped by
-    default (pass --with-frequency to include it).
+    default (pass --with-frequency to include it). Includes sensitivity analyses
+    and the speaker-label tally, with a corpus-based sample check when inputs exist.
 JA: OS 非依存のオーケストレータ。各ステップは run_0N スクリプトを呼ぶ。最初の失敗で停止。
-    副次の G²（step 05）は既定でスキップ（--with-frequency で実行）。
+    副次の G²（step 05）は既定でスキップ（--with-frequency で実行）。感度分析と話者ラベル集計、
+    入力がある場合はコーパスからの標本再抽出チェックも行う。
 
     python reproducibility/run_all.py
     python reproducibility/run_all.py --with-frequency --force-detect
@@ -47,6 +49,8 @@ def main() -> int:
     if args.with_frequency:
         step("run_05_frequency_suite.py")
     step("run_06_table1.py")
+    step("run_07_sensitivity.py")
+    step("run_08_speaker_check.py")
     step("verify_numbers.py")
     print("\nAll steps complete.")
     return 0
